@@ -1,0 +1,54 @@
+//npx sequelize-cli model:generate --name updateProduct --attributes userId:integer,productId:integer,current_existence:integer
+'use strict';
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('updateProducts', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      userId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      productId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'products',
+          key: 'id'
+        }
+      },
+      current_existence: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.INTEGER,
+        validate: {
+          not: ["[a-z]",'i']
+        }
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    },{
+      charset: 'utf8', 
+      collate: 'utf8_general_ci'
+    });
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('updateProducts');
+  }
+};
