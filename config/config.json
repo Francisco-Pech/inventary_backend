@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "12345",
-    "database": "pharmacy_inventary",
-    "host": "127.0.0.1",
+    "username": "uuckbdpp0pgqqqn6",
+    "password": "SaXJtfUmkUgcnnwS2Ytl",
+    "database": "bqv6fjiluj2hlzwl7afr",
+    "host": "bqv6fjiluj2hlzwl7afr-mysql.services.clever-cloud.com",
     "dialect": "mysql"
   },
   "test": {
@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "12345",
-    "database": "pharmacy_inventary",
-    "host": "127.0.0.1",
+    "username": "uuckbdpp0pgqqqn6",
+    "password": "SaXJtfUmkUgcnnwS2Ytl",
+    "database": "bqv6fjiluj2hlzwl7afr",
+    "host": "bqv6fjiluj2hlzwl7afr-mysql.services.clever-cloud.com",
     "dialect": "mysql"
   }
 }
