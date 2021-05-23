@@ -33,48 +33,33 @@ module.exports = {
       price: {
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.FLOAT,
-        validate: {
-          not: ["[a-z]",'i']
-        }
+        type: Sequelize.FLOAT
       },
       public_price: {
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.FLOAT,
-        validate: {
-          not: ["[a-z]",'i']
-        }
+        type: Sequelize.FLOAT
       },
       existence: {
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.INTEGER,
-        validate: {
-          not: ["[a-z]",'i']
-        }
+        type: Sequelize.INTEGER
       },
       order: {
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.INTEGER,
-        validate: {
-          not: ["[a-z]",'i']
-        }
+        type: Sequelize.INTEGER
       },
       fixed_background: {
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.INTEGER,
-        validate: {
-          not: ["[a-z]",'i']
-        }
+        type: Sequelize.INTEGER
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }

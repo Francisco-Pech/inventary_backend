@@ -30,16 +30,13 @@ module.exports = {
       current_existence: {
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.INTEGER,
-        validate: {
-          not: ["[a-z]",'i']
-        }
+        type: Sequelize.INTEGER
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }

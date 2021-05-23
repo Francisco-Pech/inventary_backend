@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Products extends Model {
     /**
@@ -21,63 +19,48 @@ module.exports = (sequelize, DataTypes) => {
     code: {
       unique: true,
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     name: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     generic_compound: {
       allowNull: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     specs: {
       allowNull: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     presentation: { 
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     price: {
       allowNull: false,
       defaultValue: 0,
-      type: Sequelize.FLOAT,
-      validate: {
-        not: ["[a-z]",'i']
-      }
+      type: DataTypes.FLOAT
     },
     public_price: {
       allowNull: false,
       defaultValue: 0,
-      type: Sequelize.FLOAT,
-      validate: {
-        not: ["[a-z]",'i']
-      }
+      type: DataTypes.FLOAT
     },
     existence: {
       allowNull: false,
       defaultValue: 0,
-      type: Sequelize.INTEGER,
-      validate: {
-        not: ["[a-z]",'i']
-      }
+      type: DataTypes.INTEGER
     },
     order: {
       allowNull: false,
       defaultValue: 0,
-      type: Sequelize.INTEGER,
-      validate: {
-        not: ["[a-z]",'i']
-      }
+      type: DataTypes.INTEGER
     },
     fixed_background: {
       allowNull: false,
       defaultValue: 0,
-      type: Sequelize.INTEGER,
-      validate: {
-        not: ["[a-z]",'i']
-      }
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,

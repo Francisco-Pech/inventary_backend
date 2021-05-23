@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class updateProduct extends Model {
     /**
@@ -18,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   updateProduct.init({
     userId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       onDelete: 'CASCADE',
         references: {
           model: 'users',
@@ -27,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     productId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       onDelete: 'CASCADE',
         references: {
           model: 'products',
@@ -37,10 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     current_existence: {
       allowNull: false,
       defaultValue: 0,
-      type: Sequelize.INTEGER,
-      validate: {
-        not: ["[a-z]",'i']
-      }
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,
