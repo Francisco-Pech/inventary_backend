@@ -94,8 +94,6 @@ exports.show=async function(req,res){
                 results_filter_products.generic_compound = (req.query.generic_compound).toUpperCase();
             }
 
-            console.log(results_filter_products);
-
             // Filtramos todos los productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await Products.findAndCountAll({ where: results_filter_products, order: [['id', 'DESC']], offset: offset, limit: format_for_page});
          
@@ -107,12 +105,12 @@ exports.show=async function(req,res){
             }
 
         }else{
-            const filter_products = await Products.findAll({ order: [['id', 'DESC']], offset: offset, limit: format_for_page});
-            const total_products = await Products.count();
-
-            if(filter_products){
-                const finish_page = Math.ceil((total_products / format_for_page));
-                return res.status(200).send({ data: filter_products, finish_page: finish_page });
+       
+            const { count, rows } = await Products.findAndCountAll({ order: [['id', 'DESC']], offset: offset, limit: format_for_page});
+     
+            if(rows){
+                const finish_page = Math.ceil((count / format_for_page));
+                return res.status(200).send({ data: rows, finish_page: finish_page });
             }else{
                 return res.status(404).send('Products not found');
             }
