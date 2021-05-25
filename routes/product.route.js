@@ -3,7 +3,7 @@ const products = require('../controllers/product.controller');
 const router = express.Router();
 
 
-//------------------------------------------------Rutas del usuarios--------------------------------------//
+//-----------------------------------------------Rutas de los productos-----------------------------------//
 /* Obtener los datos de todos los productos */
 router.get('/product/show', products.index);
 

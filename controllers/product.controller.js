@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const { Products }=require('../models/index')
 require('dotenv').config();
 
@@ -8,7 +7,7 @@ require('dotenv').config();
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
- exports.create=async function(req,res){
+ exports.create = async (req,res) =>{
     try{
         // Verificamos que los parámetros necesarios estén completos
         if(req.body.code && req.body.name && req.body.presentation && req.body.price && req.body.public_price 
@@ -33,8 +32,10 @@ require('dotenv').config();
         }
             
     }catch(err){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -44,7 +45,7 @@ require('dotenv').config();
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
-exports.show=async function(req,res){
+exports.show = async (req,res) =>{
     const id = req.params.id;
     try{
         const filter_products = await Products.findByPk(id);
@@ -54,8 +55,10 @@ exports.show=async function(req,res){
             return res.status(404).send('Product not found');
         }
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -65,7 +68,7 @@ exports.show=async function(req,res){
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
- exports.index=async function(req,res){
+ exports.index = async (req,res) =>{
     const format_for_page = 10;
     let page = 1;
 
@@ -117,8 +120,10 @@ exports.show=async function(req,res){
         }
         
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -128,7 +133,7 @@ exports.show=async function(req,res){
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
- exports.update=async function(req,res){
+ exports.update = async (req,res) =>{
     const id = req.params.id;
     try{
         // Verificamos que los parámetros necesarios estén completos
@@ -156,8 +161,10 @@ exports.show=async function(req,res){
             return res.status(404).send('product not found');
         }
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -167,7 +174,7 @@ exports.show=async function(req,res){
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
- exports.delete=async function(req,res){
+ exports.delete = async (req,res) =>{
     const id = req.params.id;
     try{
         const filter_products = await Products.findByPk(id);
@@ -180,8 +187,10 @@ exports.show=async function(req,res){
         }
 
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
  }
 

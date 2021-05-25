@@ -8,13 +8,26 @@ require('dotenv').config();
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
-exports.create=async function(req,res){
+exports.create = async (req,res) =>{
     try{
-        console.log(req.body);
-        return res.status(200).send(await Users.create(req.body));
-    }catch(err){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        if(req.body.username && req.body.password){
+            const filter_users = await Users.findOne({ where: { username: req.body.username } });
+
+            if(!filter_users){
+                req.body.token = jwt.sign(req.body.username, process.env.TOKEN_SECRET);
+                return res.status(200).send(await Users.create(req.body));
+            }else{
+                return res.status(400).send('Existing username');
+            }
+        }else{
+            return res.status(400).send('Required parameters');
+        }
+        
+    }catch(error){
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -24,7 +37,7 @@ exports.create=async function(req,res){
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
-exports.show=async function(req,res){
+exports.show = async (req,res) =>{
     const id = req.params.id;
     try{
         const filter_users = await Users.findByPk(id);
@@ -34,8 +47,10 @@ exports.show=async function(req,res){
             return res.status(404).send('User not found');
         }
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -45,7 +60,7 @@ exports.show=async function(req,res){
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
- exports.index=async function(req,res){
+ exports.index = async (req,res) =>{
     
     try{
         const filter_users = await Users.findAll();
@@ -55,8 +70,10 @@ exports.show=async function(req,res){
             return res.status(404).send('Users not found');
         }
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -66,29 +83,31 @@ exports.show=async function(req,res){
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
- exports.update=async function(req,res){
+ exports.update = async (req,res) =>{
     const id = req.params.id;
     try{
-        const filter_users = await Users.findByPk(id);
-        if(filter_users){
+        if(req.body.username && req.body.password){
+            const filter_users = await Users.findByPk(id);
 
-            const data_user_update = await Users.update(req.body, {
-                where:{
-                    id : id
+            if(filter_users){  
+                const data_user_update = await Users.update(req.body, {where:{id : id}});
+
+                if (data_user_update[0]== 0) {
+                    return res.status(404).send('User not found');
+                }else{
+                    return res.status(200).send(await Users.findByPk(id));
                 }
-            });
-
-            if (data_user_update[0]== 0) {
-                return res.status(404).send('User not found');
             }else{
-                return res.status(200).send(await Users.findByPk(id));
+                return res.status(404).send('User not found');
             }
         }else{
-            return res.status(404).send('User not found');
+            return res.status(400).send('Required parameters');
         }
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
 }
 
@@ -98,7 +117,7 @@ exports.show=async function(req,res){
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
- exports.delete=async function(req,res){
+ exports.delete = async (req,res) =>{
     const id = req.params.id;
     try{
         const filter_users = await Users.findByPk(id);
@@ -111,8 +130,10 @@ exports.show=async function(req,res){
         }
 
     }catch(error){
-        console.log({ error: err, message: err.message });
-        return res.status(500).send({});
+        return res.status(500).send({
+            error: error, 
+            message: error.message
+        });
     }
  }
 
