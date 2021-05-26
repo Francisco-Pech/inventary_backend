@@ -12,7 +12,6 @@ exports.create = async (req,res) =>{
     try{
         if(req.body.username && req.body.password){
             const filter_users = await Users.findOne({ where: { username: req.body.username } });
-
             if(!filter_users){
                 req.body.token = jwt.sign(req.body.username, process.env.TOKEN_SECRET);
                 return res.status(200).send(await Users.create(req.body));
@@ -22,7 +21,6 @@ exports.create = async (req,res) =>{
         }else{
             return res.status(400).send('Required parameters');
         }
-        
     }catch(error){
         return res.status(500).send({
             error: error, 
@@ -61,7 +59,6 @@ exports.show = async (req,res) =>{
  * @returns 
  */
  exports.index = async (req,res) =>{
-    
     try{
         const filter_users = await Users.findAll();
         if(filter_users){
@@ -136,4 +133,6 @@ exports.show = async (req,res) =>{
         });
     }
  }
+
+
 

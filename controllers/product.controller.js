@@ -31,7 +31,7 @@ require('dotenv').config();
             return res.status(400).send('Required parameters');
         }
             
-    }catch(err){
+    }catch(error){
         return res.status(500).send({
             error: error, 
             message: error.message
