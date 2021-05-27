@@ -10,6 +10,17 @@ require('dotenv').config();
  */
 exports.login = async (req,res) =>{ 
     try{
+
+        if(!req.body.username){
+            return res.status(400).send({
+                message: 'Username required'
+            });
+        }else if(!req.body.password){
+            return res.status(400).send({
+                message: 'Password required'
+            });
+        }
+
         if(req.body.username && req.body.password){
             
             const filter_users = await Users.findOne({ where: { 
@@ -21,12 +32,16 @@ exports.login = async (req,res) =>{
             if(filter_users){
                 req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET);
                 filter_users.save();
-                return res.status(200).send(filter_users);
+                return res.status(200).send({
+                    id: filter_users.id,
+                    username: filter_users.username,
+                    message: 'Session successfully logged in'
+                });
             }else{
-                return res.status(400).send('Username or Password incorrect');
+                return res.status(400).send({
+                    message: 'Username or Password incorrect'
+                });
             }
-        }else{
-            return res.status(400).send('Required parameters');
         }
     }catch(error){
         return res.status(500).send({

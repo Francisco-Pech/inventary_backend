@@ -12,19 +12,45 @@ require('dotenv').config();
  */
  exports.create = async (req,res) =>{
     try{
+
+        console.log(req.body);
+        if(!req.body.userId){
+            return res.status(400).send({
+                message: 'userId required'
+            });
+        }else if(!req.body.productId){
+            return res.status(400).send({
+                message: 'productId required'
+            });
+        }else if(!req.body.current_existence){
+            return res.status(400).send({
+                message: 'Existence product required'
+            });
+        }
+
         if(req.body.userId && req.body.productId && req.body.current_existence){
 
             const filter_products = await Products.findByPk(req.body.productId);
             const filter_users = await Users.findByPk(req.body.userId);
 
-            if(filter_products && filter_users){
-                return res.status(200).send(await updateProduct.create(req.body));
-            }else{
-                return res.status(400).send('Product or User not found');
+            if(!filter_products){
+                return res.status(400).send({
+                    message: 'Product not found'
+                });
+            }else if(!filter_users){
+                return res.status(400).send({
+                    message: 'User not found'
+                });
             }
-        }else{
-            return res.status(400).send('Required parameters');
+
+            if(filter_products && filter_users){
+                const update_product_and_user = await updateProduct.create(req.body);
+                return res.status(200).send({
+                    message: 'updateProduct create successfully'
+                });
+            }
         }
+
     }catch(error){
         return res.status(500).send({
             error: error, 
@@ -44,9 +70,17 @@ require('dotenv').config();
     try{
         const filter_products = await updateProduct.findByPk(id);
         if(filter_products){
-            return res.status(200).send(filter_products);
+            return res.status(200).send({
+                id: filter_products.id,
+                userId: filter_products.userId,
+                productId:  filter_products.productId,
+                current_existence: filter_products.current_existence,
+                message: 'updateProduct found successfully'
+            });
         }else{
-            return res.status(404).send('Update products not found');
+            return res.status(404).send({
+                message: 'Update products not found'
+            });
         }
     }catch(error){
         return res.status(500).send({
@@ -90,26 +124,58 @@ require('dotenv').config();
                 results_filter_updateproducts.current_existence = (req.query.existence);
             }
 
-
             // Filtramos todos las actualizaciones de productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await updateProduct.findAndCountAll({ where: results_filter_updateproducts, order: [['id', 'DESC']], offset: offset, limit: format_for_page});
-         
+
+            const data_update_product = [];
+
+            for (let i = 0; i < count; i++) {
+            data_update_product[i] = {
+                    id: rows[i].id,
+                    userId: rows[i].userId,
+                    productId: rows[i].productId,
+                    current_existence: rows[i].current_existence,
+            }
+            }
+
             if(rows){
                 const finish_page = Math.ceil((count/format_for_page));
-                return res.status(200).send({ data: rows, finish_page: finish_page });
+                return res.status(200).send({ 
+                    data: data_update_product, 
+                    finish_page: finish_page,
+                    message: 'updateProducts found successfully' 
+                });
             }else{
-                return res.status(404).send('Register update product not found');
+                return res.status(404).send({
+                    message: 'Register updateProduct not found'
+                });
             }
         }else{
 
             // Filtramos todos los productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await updateProduct.findAndCountAll({order: [['id', 'DESC']], offset: offset, limit: format_for_page});
          
+            const data_update_product = [];
+
+            for (let i = 0; i < count; i++) {
+            data_update_product[i] = {
+                    id: rows[i].id,
+                    userId: rows[i].userId,
+                    productId: rows[i].productId,
+                    current_existence: rows[i].current_existence,
+            }
+            }
             if(rows){
                 const finish_page = Math.ceil((count/format_for_page));
-                return res.status(200).send({ data: rows, finish_page: finish_page });
+                return res.status(200).send({ 
+                    data: data_update_product, 
+                    finish_page: finish_page,
+                    message: 'updateProducts found successfully'  
+                });
             }else{
-                return res.status(404).send('Register update product not found');
+                return res.status(404).send({ 
+                    message:'Register updateProduct not found'
+                });
             }
         }
     }catch(error){
