@@ -138,7 +138,7 @@ require('dotenv').config();
             }
             }
 
-            if(rows){
+            if(data_update_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
                 return res.status(200).send({ 
                     data: data_update_product, 
@@ -165,7 +165,7 @@ require('dotenv').config();
                     current_existence: rows[i].current_existence,
             }
             }
-            if(rows){
+            if(data_update_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
                 return res.status(200).send({ 
                     data: data_update_product, 

@@ -34,9 +34,8 @@ exports.create = async (req,res) =>{
             }
         }
     }catch(error){
-        return res.status(500).send({
-            error: error, 
-            message: error.message
+        return res.status(409).send({
+            message : error.errors[0].message
         });
     }
 }
@@ -132,7 +131,7 @@ exports.show = async (req,res) =>{
 
             if(filter_users){  
                 const data_user_update = await Users.update(req.body, {where:{id : id}});
-
+                
                 if (data_user_update[0]== 0) {
                     return res.status(404).send({
                         message: 'User not found'
@@ -140,6 +139,7 @@ exports.show = async (req,res) =>{
                 }else{
                     const users_update = await Users.findByPk(id);
                     return res.status(200).send({
+                        username : users_update.username,
                         message: 'User update successfully'
                     });
                 }
@@ -151,9 +151,8 @@ exports.show = async (req,res) =>{
         }
 
     }catch(error){
-        return res.status(500).send({
-            error: error, 
-            message: error.message
+        return res.status(409).send({
+            message : error.errors[0].message
         });
     }
 }

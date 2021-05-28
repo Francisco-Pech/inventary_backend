@@ -67,9 +67,9 @@ require('dotenv').config();
             }
         }
     }catch(error){
-        return res.status(500).send({
-            error: error, 
-            message: error.message
+
+        return res.status(409).send({
+            message : error.errors[0].message
         });
     }
 }
@@ -167,7 +167,7 @@ exports.show = async (req,res) =>{
             }
             }
 
-            if(rows){
+            if(data_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
                 return res.status(200).send({ 
                     data: data_product, 
@@ -201,7 +201,7 @@ exports.show = async (req,res) =>{
             }
             }
 
-            if(rows){
+            if(data_product.length > 0){
                 const finish_page = Math.ceil((count / format_for_page));
                 return res.status(200).send({ 
                     data: data_product, 
@@ -293,9 +293,8 @@ exports.show = async (req,res) =>{
             }
         }
     }catch(error){
-        return res.status(500).send({
-            error: error, 
-            message: error.message
+        return res.status(409).send({
+            message : error.errors[0].message
         });
     }
 }
