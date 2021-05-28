@@ -6,36 +6,42 @@ module.exports = {
     let datas = [];
     // Esto se cambia según el ID del usuario y producto ya que se encuentran relacionadas
     datas.push({
-        userId:56,
-        productId:71,
-        current_existence:faker.datatype.number(),
-        created_at:new Date(), 
-        updated_at:new Date(),
+        userId:26,
+        productId:63,
+        current_existence:faker.datatype.number(100),
+        createdAt:new Date(), 
+        updatedAt:new Date(),
     },{
-        userId:56,
-        productId:72,
-        current_existence:faker.datatype.number(),
-        created_at:new Date(), 
-        updated_at:new Date(),
+        userId:26,
+        productId:64,
+        current_existence:faker.datatype.number(100),
+        createdAt:new Date(), 
+        updatedAt:new Date(),
     },{
-        userId:57,
-        productId:73,
-        current_existence:faker.datatype.number(),
-        created_at:new Date(), 
-        updated_at:new Date(),
+        userId:27,
+        productId:66,
+        current_existence:faker.datatype.number(100),
+        createdAt:new Date(), 
+        updatedAt:new Date(),
     },{
-      userId:58,
-        productId:74,
-        current_existence:faker.datatype.number(),
-        created_at:new Date(), 
-        updated_at:new Date(),
+      userId:28,
+        productId:62,
+        current_existence:faker.datatype.number(100),
+        createdAt:new Date(), 
+        updatedAt:new Date(),
+    },{
+      userId:30,
+        productId:62,
+        current_existence:faker.datatype.number(100),
+        createdAt:new Date(), 
+        updatedAt:new Date(),
     }
     );
     
-    await queryInterface.bulkInsert('updateproducts', datas, {});
+    await queryInterface.bulkInsert('updateProducts', datas, {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('updateproducts', null, {});
+    await queryInterface.bulkDelete('updateProducts', null, {});
   }
 };
