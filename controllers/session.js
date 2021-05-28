@@ -59,5 +59,6 @@ exports.login = async (req,res) =>{
  */
 exports.logout = async (req,res) =>{
     console.log(req.body);
+    // Borrar el token 
     return res.status(200).send("Sesión cerrada");
 }
