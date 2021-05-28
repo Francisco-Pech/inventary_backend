@@ -12,6 +12,7 @@ app.get('/', (req, res) =>{
     res.send('Bienvenido a la API REST');
 });
 
+
 app.use(userRoute);
 app.use(productRoute);
 app.use(updateproductRoute);

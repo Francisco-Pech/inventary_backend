@@ -66,6 +66,7 @@ exports.logout = async (req,res) =>{
     if(req.body.token){
         const id = req.body.token;
         const filter_products = await Products.findByPk(id);
+        
         // Borrar el token 
         return res.status(200).send("Sesión cerrada");
     }
