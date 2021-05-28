@@ -2,10 +2,9 @@
   "name": "backend_inventario",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server"
   },
   "keywords": [],
   "author": "",
@@ -29,5 +28,8 @@
   "devDependencies": {
     "nodemon": "^2.0.7",
     "sequelize-cli": "^6.2.0"
+  },
+  "engines": {
+    "node": "14.17.0"
   }
 }
