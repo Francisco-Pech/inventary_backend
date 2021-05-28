@@ -17,7 +17,6 @@ exports.login = async (req,res) =>{
                 password: req.body.password
              } 
             });
-
             if(filter_users){
                 req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET);
                 filter_users.save();
@@ -44,5 +43,6 @@ exports.login = async (req,res) =>{
  * @returns 
  */
 exports.logout = async (req,res) =>{
-console.log(req.body);
+    console.log(req.body);
+    return res.status(200).send("Sesión cerrada");
 }
