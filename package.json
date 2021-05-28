@@ -3,12 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
     "start": "node server.js"
-=======
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> 09bf6a9dd05ebfd67a03e8b1dce99e74b463f0ae
   },
   "keywords": [],
   "author": "",
