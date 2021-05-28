@@ -134,6 +134,7 @@ exports.show = async (req,res) =>{
             const filter_users = await Users.findByPk(id);
 
             if(filter_users){  
+                req.body.password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
                 const data_user_update = await Users.update(req.body, {where:{id : id}});
                 
                 if (data_user_update[0]== 0) {
