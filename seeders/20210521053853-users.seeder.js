@@ -6,17 +6,17 @@ module.exports = {
     let amount = 5;
     while(amount--){
       datas.push({
-        token:faker.datatype.hexaDecimal(),
+        token:faker.random.alphaNumeric(18),
         username:faker.internet.userName(),
         password:faker.internet.password(),
-        created_at:new Date(), 
-        updated_at:new Date(),
+        createdAt:new Date(), 
+        updatedAt:new Date(),
       });
     }
-    await queryInterface.bulkInsert('users', datas, {});
+    await queryInterface.bulkInsert('Users', datas, {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('users', null, {});
+    await queryInterface.bulkDelete('Users', null, {});
   }
 };

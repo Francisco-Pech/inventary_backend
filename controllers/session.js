@@ -45,6 +45,7 @@ try{
           const filter_users  =  await Users.findOne({
             where: {
                 username: req.body.username,
+<<<<<<< HEAD
                 //password: req.body.password
             }
         })
@@ -52,6 +53,12 @@ try{
   //    return res.status(401).send({ errors: "Invalid user" });
     //}
             if(filter_users && bcrypt.compareSync(req.body.password, filter_users.password)){
+=======
+                password: req.body.password
+             } 
+            });
+            if(filter_users){
+>>>>>>> a951f385324167da481a607b303d64270199e2ea
                 req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET);
                 filter_users.save();
                 return res.status(200).send({
@@ -82,5 +89,12 @@ try{
  * @returns 
  */
 exports.logout = async (req,res) =>{
+<<<<<<< HEAD
 console.log(req.body);
 }
+=======
+    console.log(req.body);
+    // Borrar el token 
+    return res.status(200).send("Sesión cerrada");
+}
+>>>>>>> a951f385324167da481a607b303d64270199e2ea

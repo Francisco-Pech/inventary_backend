@@ -6,7 +6,7 @@ module.exports = {
     let amount = 5;
     while(amount--){
       datas.push({
-        code:faker.datatype.hexaDecimal(),
+        code:faker.datatype.number(9999999999999),
         name:faker.random.word(),
         generic_compound:faker.random.word(),
         specs:faker.lorem.words(),
@@ -16,14 +16,14 @@ module.exports = {
         existence:faker.datatype.number(),
         order:faker.datatype.number(),
         fixed_background:faker.datatype.number(),
-        created_at:new Date(), 
-        updated_at:new Date(),
+        createdAt:new Date(), 
+        updatedAt:new Date(),
       });
     }
-    await queryInterface.bulkInsert('products', datas, {});
+    await queryInterface.bulkInsert('Products', datas, {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('products', null, {});
+    await queryInterface.bulkDelete('Products', null, {});
   }
 };
