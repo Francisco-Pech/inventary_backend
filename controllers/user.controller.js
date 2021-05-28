@@ -1,5 +1,7 @@
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Users }=require('../models/index')
+const authConfig = require('../config/auth');
 require('dotenv').config();
 
 /**
@@ -22,6 +24,8 @@ exports.create = async (req,res) =>{
         if(req.body.username && req.body.password){
             const filter_users = await Users.findOne({ where: { username: req.body.username } });
             if(!filter_users){
+               // Encriptamos la contraseña
+                req.body.password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
                 req.body.token = jwt.sign(req.body.username, process.env.TOKEN_SECRET);
                 const users_create = await Users.create(req.body);
                 return res.status(200).send({
