@@ -9,7 +9,7 @@ const app= express();
 app.use(bodyparser.json());
 
 app.get('/', (req, res) =>{
-    res.send('Bienvenido a la API');
+    res.send('Bienvenido a la API de inventario');
 });
 
 app.use(userRoute);
