@@ -31,11 +31,12 @@ try{
             }
         });
 
-            // if(filter_users && bcrypt.compareSync(req.body.password, filter_users.password)){
-            if(filter_users){
-                req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET);
+            if(filter_users && bcrypt.compareSync(req.body.password, filter_users.password)){
+            // if(filter_users){
+                req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET); 
                 // Se actualiza nuevo Token
                 filter_users.save();
+                delete req.body.password
                 await Users.update(req.body, {where:{username : req.body.username}});
                 return res.status(200).send({
                     id: filter_users.id,
@@ -66,21 +67,20 @@ try{
  * @returns 
  */
 exports.logout = async (req,res) =>{
-    console.log(req.body);
-    if(req.body.token){
-        const id = req.body.token;
-        const token  = await Users.findOne({ where: { token: req.body.token} });
-        // const filter_products = await Users.findByPk(id);
-        let body = {
-            token : "",
-        };
-        const data_product_update = await Users.update(body, {
-            where:{
-                token : token.dataValues.token,
-            }
-        });
-        console.log(token.dataValues);
-        // Borrar el token 
-        return res.status(200).send(data_product_update);
-    }
+    // const id = req.body.token;
+    var _token = req.headers.authorization.split(" ")[1];
+    const token  = await Users.findOne({ where: { token: _token } });
+    // const filter_products = await Users.findByPk(id);
+    let body = {
+        token : "",
+    };
+    const data_product_update = await Users.update(body, {
+        where:{
+            token : token.dataValues.token,
+        }
+    });
+    // Borrar el token 
+    return res.status(200).send({
+        message: "Sesión cerrada"
+    });
 }

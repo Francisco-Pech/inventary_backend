@@ -2,15 +2,23 @@
 const { Users }=require('../models/index')
 
 exports.isLogged = async function(req, res, next) {
-    let _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBhY28iLCJpZCI6MzIsImlhdCI6MTYyMjI2MjI5NH0.GrxJZmfeR8i8Vf_kDqLjD3QUa5_7oe5XYjUSHrHnseI";
-    const tokenExist = await Users.findOne({ where: { token: _token } });
-    console.log("********************")
-    console.log(tokenExist);
-    if(tokenExist){
-        console.log("Log...");
-        next()
+    if(req.headers.authorization){
+        var _token = req.headers.authorization.split(" ")[1];
+        console.log(_token);
+        // let _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZhdHkiLCJpZCI6MzgsImlhdCI6MTYyMjI2MzgzMn0.F4qmAUPX2BabycyVWJfP0l7bFlDQViqcdhqzJRoxpuE";
+        const tokenExist = await Users.findOne({ where: { token: _token } });
+        if(tokenExist){
+            console.log("Log...");
+            next()
+        }else{
+            console.log("No log...");
+            res.status(401).send({
+                message: "No Autorizado"
+            });
+        }
     }else{
-        console.log("No log...");
-        next()
+        res.status(401).send({
+            message: "No Autorizado [No Bearer Token]"
+        });
     }
 }

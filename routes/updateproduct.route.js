@@ -1,5 +1,6 @@
 const express = require('express');
 const updateproducts = require('../controllers/updateproduct.controller');
+const { isLogged } = require('../middlewares/jwtValid');
 const router = express.Router();
 
 
@@ -11,7 +12,7 @@ router.get('/updateproduct/show', updateproducts.index);
 router.get('/updateproduct/show/:id',updateproducts.show);
 
 /* Creación de productos actualizados */
-router.post('/updateproduct/create',updateproducts.create);
+router.post('/updateproduct/create',isLogged,updateproducts.create);
 
 
 //--------------------------------------------------------------------------------------------------------//

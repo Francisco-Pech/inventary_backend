@@ -6,7 +6,7 @@ const router = express.Router();
 
 //------------------------------------------------Rutas del usuarios--------------------------------------//
 /* Obtener los datos de todos los usuarios */
-router.get('/user/show',isLogged,users.index);
+router.get('/user/show',users.index);
 
 /* Obtener datos de un usuario */
 router.get('/user/show/:id',users.show);
