@@ -1,4 +1,3 @@
-
 const { Users }=require('../models/index')
 
 exports.isLogged = async function(req, res, next) {
