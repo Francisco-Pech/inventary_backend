@@ -1,5 +1,6 @@
 const express = require('express');
 const products = require('../controllers/product.controller');
+const { isLogged } = require('../middlewares/jwtValid');
 const router = express.Router();
 
 
@@ -11,13 +12,13 @@ router.get('/product/show', products.index);
 router.get('/product/show/:id',products.show);
 
 /* Creación de productos */
-router.post('/product/create',products.create);
+router.post('/product/create', isLogged ,products.create);
 
 /* Actualizamos los datos del producto  */
-router.put('/product/update/:id', products.update);
+router.put('/product/update/:id', isLogged,products.update);
 
 /* Eliminamos a un producto */
-router.delete('/product/delete/:id', products.delete);
+router.delete('/product/delete/:id', isLogged, products.delete);
 
 //--------------------------------------------------------------------------------------------------------//
 
