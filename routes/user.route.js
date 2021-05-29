@@ -6,13 +6,13 @@ const router = express.Router();
 
 //------------------------------------------------Rutas del usuarios--------------------------------------//
 /* Obtener los datos de todos los usuarios */
-router.get('/user/show',users.index);
+router.get('/user/show',isLogged,users.index);
 
 /* Obtener datos de un usuario */
-router.get('/user/show/:id',users.show);
+router.get('/user/show/:id',isLogged,users.show);
 
 /* Creación de usuarios */
-router.post('/user/create',isLogged,users.create);
+router.post('/user/create',users.create);
 
 /* Actualizamos los datos del usuario  */
 router.put('/user/update/:id', isLogged,users.update);

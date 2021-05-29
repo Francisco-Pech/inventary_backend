@@ -6,10 +6,10 @@ const router = express.Router();
 
 //-----------------------------------------------Rutas de los productos-----------------------------------//
 /* Obtener los datos de todos los productos */
-router.get('/product/show', products.index);
+router.get('/product/show',isLogged, products.index);
 
 /* Obtener datos de un producto */
-router.get('/product/show/:id',products.show);
+router.get('/product/show/:id',isLogged, products.show);
 
 /* Creación de productos */
 router.post('/product/create', isLogged ,products.create);
