@@ -32,13 +32,13 @@ exports.create = async (req,res) =>{
                     message: 'User create successfully'
                 });
             }else{
-                return res.status(400).send({
+                return res.status(202).send({
                     message:'Existing username'
                 });
             }
         }
     }catch(error){
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }
@@ -156,7 +156,7 @@ exports.show = async (req,res) =>{
         }
 
     }catch(error){
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }

@@ -61,14 +61,13 @@ require('dotenv').config();
                     message: 'Product create successfully'
                 });
             }else{
-                return res.status(400).send({
+                return res.status(202).send({
                     message: 'Existing product code'
                 });
             }
         }
     }catch(error){
-
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }
@@ -290,10 +289,14 @@ exports.show = async (req,res) =>{
                         message: 'Product update successfully'
                     });
                 }
+            }else{
+                return res.status(404).send({
+                    message: 'Product not found'
+                });
             }
         }
     }catch(error){
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }

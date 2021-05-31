@@ -32,17 +32,21 @@ require('dotenv').config();
 
             const filter_products = await Products.findByPk(req.body.productId);
             const filter_users = await Users.findByPk(req.body.userId);
-
-            if(!filter_products){
-                return res.status(400).send({
-                    message: 'Product not found'
+        
+            if(!filter_products && !filter_users){
+                return res.status(404).send({
+                    message: 'Product and User not found'
                 });
             }else if(!filter_users){
-                return res.status(400).send({
+                return res.status(404).send({
                     message: 'User not found'
                 });
+            }else if(!filter_products){
+                return res.status(404).send({
+                    message: 'Product not found'
+                });
             }
-
+            
             if(filter_products && filter_users){
                 const update_product_and_user = await updateProduct.create(req.body);
                 return res.status(200).send({

@@ -12,7 +12,7 @@ router.get('/user/show',isLogged,users.index);
 router.get('/user/show/:id',isLogged,users.show);
 
 /* Creación de usuarios */
-router.post('/user/create',users.create);
+router.post('/user/create',isLogged,users.create);
 
 /* Actualizamos los datos del usuario  */
 router.put('/user/update/:id', isLogged,users.update);
