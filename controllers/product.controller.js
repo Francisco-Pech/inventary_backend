@@ -55,8 +55,8 @@ require('dotenv').config();
 
             // Filtramos para verificar que no exista el código de barras 
             const filter_products = await Products.findOne({ where: { code: req.body.code } });
-            const product_create = await Products.create(req.body);
             if(!filter_products){
+                const product_create = await Products.create(req.body);
                 return res.status(200).send({
                     message: 'Product create successfully'
                 });
