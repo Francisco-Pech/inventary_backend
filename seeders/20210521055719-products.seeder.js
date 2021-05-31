@@ -1,3 +1,4 @@
+//sequelize db:seed --seed 20210521055719-products.seeder.js
 'use strict';
 const faker=require('faker');
 module.exports = {
@@ -16,6 +17,7 @@ module.exports = {
         existence:faker.datatype.number(),
         order:faker.datatype.number(),
         fixed_background:faker.datatype.number(),
+        laboratory:faker.random.word(),
         createdAt:new Date(), 
         updatedAt:new Date(),
       });
