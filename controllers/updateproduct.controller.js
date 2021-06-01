@@ -12,8 +12,6 @@ require('dotenv').config();
  */
  exports.create = async (req,res) =>{
     try{
-
-        console.log(req.body);
         if(!req.body.userId){
             return res.status(400).send({
                 message: 'userId required'
@@ -131,16 +129,14 @@ require('dotenv').config();
             // Filtramos todos las actualizaciones de productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await updateProduct.findAndCountAll({ where: results_filter_updateproducts, order: [['id', 'DESC']], offset: offset, limit: format_for_page});
 
-            const data_update_product = [];
-
-            for (let i = 0; i < count; i++) {
-            data_update_product[i] = {
-                    id: rows[i].id,
-                    userId: rows[i].userId,
-                    productId: rows[i].productId,
-                    current_existence: rows[i].current_existence,
-            }
-            }
+            const data_update_product = rows.map(function filter_updateproduct_map(element) {
+                return {
+                    id: element.id,
+                    userId: element.userId,
+                    productId: element.productId,
+                    current_existence: element.current_existence
+                }
+              });
 
             if(data_update_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
@@ -159,16 +155,15 @@ require('dotenv').config();
             // Filtramos todos los productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await updateProduct.findAndCountAll({order: [['id', 'DESC']], offset: offset, limit: format_for_page});
          
-            const data_update_product = [];
+            const data_update_product = rows.map(function filter_updateproduct_map(element) {
+                return {
+                    id: element.id,
+                    userId: element.userId,
+                    productId: element.productId,
+                    current_existence: element.current_existence
+                }
+              });
 
-            for (let i = 0; i < count; i++) {
-            data_update_product[i] = {
-                    id: rows[i].id,
-                    userId: rows[i].userId,
-                    productId: rows[i].productId,
-                    current_existence: rows[i].current_existence,
-            }
-            }
             if(data_update_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
                 return res.status(200).send({ 
