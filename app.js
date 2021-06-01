@@ -15,8 +15,14 @@ var corsConfig = {
 }
 app.use(cors(corsConfig));
 
-app.use(bodyparser.json());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 
+app.use(bodyparser.json());
 
 app.use(indexRoute);
 app.use(userRoute);
