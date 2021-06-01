@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const authConfig = require('../config/auth');
-const jwt = require('jsonwebtoken');
 const { Users }=require('../models/index')
 require('dotenv').config();
 
@@ -33,10 +32,11 @@ try{
 
             if(filter_users && bcrypt.compareSync(req.body.password, filter_users.password)){
             // if(filter_users){
-                req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET); 
+                // req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET); 
+                req.body.token = bcrypt.hashSync(req.body.username, Number.parseInt(authConfig.rounds) ); 
                 // Se actualiza nuevo Token
                 filter_users.save();
-                delete req.body.password
+                delete req.body.password;
                 await Users.update(req.body, {where:{username : req.body.username}});
                 return res.status(200).send({
                     id: filter_users.id,

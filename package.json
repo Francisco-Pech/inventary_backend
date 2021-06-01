@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "PORT = 3000 nodemon server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "Francisco",
@@ -16,6 +16,7 @@
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "express-validator": "^6.11.1",
     "faker": "^5.5.3",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
