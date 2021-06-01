@@ -71,6 +71,14 @@ module.exports = {
       charset: 'utf8', 
       collate: 'utf8_general_ci'
     });
+
+    await queryInterface.addConstraint('Products', {
+      fields: ['presentation'],
+      type: 'check',
+      where: {
+        presentation: ['TABLETAS', 'GOTAS', 'SUPOSITORIO', 'INYECTABLE']
+      }
+    });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Products');
