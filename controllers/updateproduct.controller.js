@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { Users }=require('../models/index');
 const { updateProduct }=require('../models/index');
 const { Products }=require('../models/index');
+const { check , validationResult } = require('express-validator');
 require('dotenv').config();
 
 /**
@@ -11,52 +12,63 @@ require('dotenv').config();
  * @returns 
  */
  exports.create = async (req,res) =>{
-    try{
-        if(!req.body.userId){
-            return res.status(400).send({
-                message: 'userId required'
-            });
-        }else if(!req.body.productId){
-            return res.status(400).send({
-                message: 'productId required'
-            });
-        }else if(!req.body.current_existence){
-            return res.status(400).send({
-                message: 'Existence product required'
-            });
+// Express validator
+const errors = validationResult(req)
+if (!errors.isEmpty()) {
+    let _errors = errors.array().map( function filter (element) {
+        return {
+            msg: element.msg,
         }
-
-        if(req.body.userId && req.body.productId && req.body.current_existence){
-
+    });
+    return res.status(422).json({
+        data : [],
+        message: _errors,
+        success : false,
+    })
+}
+    try{
+        
             const filter_products = await Products.findByPk(req.body.productId);
             const filter_users = await Users.findByPk(req.body.userId);
         
             if(!filter_products && !filter_users){
                 return res.status(404).send({
-                    message: 'Product and User not found'
+                    data: [],
+                    message: [{ msg:'Producto y Usuario no encontrado'}],
+                    success: false
                 });
             }else if(!filter_users){
                 return res.status(404).send({
-                    message: 'User not found'
+                    data: [],
+                    message: [{ msg:'Usuario no encontrado'}],
+                    success: false
                 });
             }else if(!filter_products){
                 return res.status(404).send({
-                    message: 'Product not found'
+                    data: [],
+                    message: [{ msg:'Product no encontrado'}],
+                    success: false
                 });
             }
             
             if(filter_products && filter_users){
                 const update_product_and_user = await updateProduct.create(req.body);
                 return res.status(200).send({
-                    message: 'updateProduct create successfully'
+                    data: [{
+                        userId: update_product_and_user.userId,
+                        productId: update_product_and_user.productId,
+                        current_existence: update_product_and_user.current_existence
+                    }],
+                    message: [{ msg:'Actualización del producto creada correctamente'}],
+                    success: true
                 });
             }
-        }
 
     }catch(error){
         return res.status(500).send({
-            error: error, 
-            message: error.message
+            data: [],
+            message: [{ msg:error.errors[0].message}],
+            success: false
         });
     }
 }
@@ -73,21 +85,27 @@ require('dotenv').config();
         const filter_products = await updateProduct.findByPk(id);
         if(filter_products){
             return res.status(200).send({
-                id: filter_products.id,
-                userId: filter_products.userId,
-                productId:  filter_products.productId,
-                current_existence: filter_products.current_existence,
-                message: 'updateProduct found successfully'
+                data: [{
+                    id: filter_products.id,
+                    userId: filter_products.userId,
+                    productId:  filter_products.productId,
+                    current_existence: filter_products.current_existence,
+                }],
+                message: [{ msg:'Producto actualizado encontrado'}],
+                success: true
             });
         }else{
             return res.status(404).send({
-                message: 'Update products not found'
+                data: [],
+                message: [{ msg:'Producto actualizado no encontrado'}],
+                success: false
             });
         }
     }catch(error){
         return res.status(500).send({
-            error: error, 
-            message: error.message
+            data: [],
+            message: [{ msg:error.errors[0].message}],
+            success: false
         });
     }
 }
@@ -143,11 +161,14 @@ require('dotenv').config();
                 return res.status(200).send({ 
                     data: data_update_product, 
                     finish_page: finish_page,
-                    message: 'updateProducts found successfully' 
+                    message: [{ msg:'Productos actualizados encontrados' }],
+                    success: true
                 });
             }else{
                 return res.status(404).send({
-                    message: 'Register updateProduct not found'
+                    data: [],
+                    message: [{ msg:'Productos actualizados no encontrados'}],
+                    success: false
                 });
             }
         }else{
@@ -169,18 +190,22 @@ require('dotenv').config();
                 return res.status(200).send({ 
                     data: data_update_product, 
                     finish_page: finish_page,
-                    message: 'updateProducts found successfully'  
+                    message: [{ msg: 'Productos actualizados encontrados'}],
+                    success: true
                 });
             }else{
                 return res.status(404).send({ 
-                    message:'Register updateProduct not found'
+                    data: [],
+                    message: [{ msg:'Productos actualizados no encontrados'}],
+                    success: false
                 });
             }
         }
     }catch(error){
         return res.status(500).send({
-            error: error, 
-            message: error.message
+            data: [],
+            message: [{ msg:error.errors[0].message}],
+            success: false
         });
     }
 }

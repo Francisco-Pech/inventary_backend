@@ -80,7 +80,7 @@ exports.show = async (req,res) =>{
                     id: filter_users.id,
                     username: filter_users.username
                 }],
-                message: [{msg: 'Usuario entrado correctamente'}],
+                message: [{msg: 'Usuario encontrado correctamente'}],
                 success: true
             });
         }else{
@@ -119,7 +119,7 @@ exports.show = async (req,res) =>{
         
             return res.status(200).send({
                 data: data_user,
-                message: [{ msg: 'Usuario creado correctamente'}],
+                message: [{ msg: 'Usuario encontrado correctamente'}],
                 success: true
                 });
         }else{
@@ -235,6 +235,3 @@ exports.delete = async (req,res) =>{
         });
     }
 }
-
-
-
