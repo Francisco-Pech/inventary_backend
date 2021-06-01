@@ -1,5 +1,6 @@
 const express = require('express');
 const updateproducts = require('../controllers/updateproduct.controller');
+const { check , validationResult } = require('express-validator');
 const { isLogged } = require('../middlewares/jwtValid');
 const router = express.Router();
 
@@ -12,7 +13,13 @@ router.get('/updateproducts',isLogged,updateproducts.index);
 router.get('/updateproducts/:id',isLogged,updateproducts.show);
 
 /* Creación de productos actualizados */
-router.post('/updateproducts',isLogged,updateproducts.create);
+router.post('/updateproducts',isLogged,
+[
+    check('userId').notEmpty().withMessage('ID del usuario requerido'),
+    check('productId').notEmpty().withMessage('ID del producto requerido'),
+    check('current_existence').notEmpty().withMessage('Existencia del producto requerido'),
+]
+,updateproducts.create);
 
 
 //--------------------------------------------------------------------------------------------------------//

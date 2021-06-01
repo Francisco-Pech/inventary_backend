@@ -38,7 +38,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     presentation: { 
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate:{
+        isIn: [['TABLETAS', 'GOTAS', 'SUPOSITORIO', 'INYECTABLE']]
+      }
     },
     price: {
       allowNull: false,

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const authConfig = require('../config/auth');
-const { Users }=require('../models/index')
+const { Users }=require('../models/index');
+const { check , validationResult } = require('express-validator');
 require('dotenv').config();
 
 /**
@@ -9,20 +10,22 @@ require('dotenv').config();
  * @param {*} res da la respuesta hacia el cliente
  * @returns 
  */
-exports.login = async (req,res) =>{  
-try{
-
-        if(!req.body.username){
-            return res.status(400).send({
-                message: 'Username required'
-            });
-        }else if(!req.body.password){
-            return res.status(400).send({
-                message: 'Password required'
-            });
+exports.login = async (req,res) =>{
+// Express validator
+const errors = validationResult(req)
+if (!errors.isEmpty()) {
+    let _errors = errors.array().map( function filter (element) {
+        return {
+            msg: element.msg,
         }
-       
-        if(req.body.username && req.body.password ){
+    });
+    return res.status(422).json({
+        data : [],
+        message: _errors,
+        success : false,
+    })
+}
+    try{
             
         const filter_users  =  await Users.findOne({
             where: {
@@ -39,22 +42,26 @@ try{
                 delete req.body.password;
                 await Users.update(req.body, {where:{username : req.body.username}});
                 return res.status(200).send({
-                    id: filter_users.id,
-                    username: filter_users.username,
-                    token : req.body.token,
-                    message: 'Session successfully logged in'
+                    data: [{
+                        id: filter_users.id,
+                        username: filter_users.username,
+                        token : req.body.token,
+                    }],
+                    message: [{ msg:'Sesión iniciada correctamente'}],
+                    success: true
                 });
             }else{
                 return res.status(400).send({
-                    message: 'Password or Username incorrect'
+                    data: [],
+                    message: [{ msg:'Usuario o contraseña incorrectos'}],
+                    success: false
                 });
             }
-        }
-
     }catch(error){
         return res.status(500).send({
-            error: error, 
-            message: error.message
+            data: [],
+            message: [{ msg: error.errors[0].message }],
+            success: false
         });
     }
 }
@@ -81,6 +88,8 @@ exports.logout = async (req,res) =>{
     });
     // Borrar el token 
     return res.status(200).send({
-        message: "Sesión cerrada"
+        data: [],
+        message: [{ msg: "Sesión cerrada" }],
+        success: true
     });
 }
