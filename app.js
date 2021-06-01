@@ -5,10 +5,9 @@ const productRoute = require('./routes/product.route');
 const updateproductRoute = require('./routes/updateproduct.route');
 const indexRoute = require('./routes/index.route')
 const sessionRoute = require('./routes/session.route');
-const app= express();
+const app = express();
 
 app.use(bodyparser.json());
-
 
 app.use(indexRoute);
 app.use(userRoute);
