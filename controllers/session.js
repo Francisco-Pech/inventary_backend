@@ -20,7 +20,7 @@ if (!errors.isEmpty()) {
         }
     });
     return res.status(422).json({
-        data : [],
+        data : {},
         message: _errors,
         success : false,
     })
@@ -42,24 +42,24 @@ if (!errors.isEmpty()) {
                 delete req.body.password;
                 await Users.update(req.body, {where:{username : req.body.username}});
                 return res.status(200).send({
-                    data: [{
+                    data: {
                         id: filter_users.id,
                         username: filter_users.username,
                         token : req.body.token,
-                    }],
+                    },
                     message: [{ msg:'Sesión iniciada correctamente'}],
                     success: true
                 });
             }else{
                 return res.status(400).send({
-                    data: [],
+                    data: {},
                     message: [{ msg:'Usuario o contraseña incorrectos'}],
                     success: false
                 });
             }
     }catch(error){
         return res.status(500).send({
-            data: [],
+            data: {},
             message: [{ msg: error.errors[0].message }],
             success: false
         });
@@ -88,7 +88,7 @@ exports.logout = async (req,res) =>{
     });
     // Borrar el token 
     return res.status(200).send({
-        data: [],
+        data: {},
         message: [{ msg: "Sesión cerrada" }],
         success: true
     });

@@ -21,7 +21,7 @@ if (!errors.isEmpty()) {
         }
     });
     return res.status(422).json({
-        data : [],
+        data : {},
         message: _errors,
         success : false,
     })
@@ -33,19 +33,19 @@ if (!errors.isEmpty()) {
         
             if(!filter_products && !filter_users){
                 return res.status(404).send({
-                    data: [],
+                    data: {},
                     message: [{ msg:'Producto y Usuario no encontrado'}],
                     success: false
                 });
             }else if(!filter_users){
                 return res.status(404).send({
-                    data: [],
+                    data: {},
                     message: [{ msg:'Usuario no encontrado'}],
                     success: false
                 });
             }else if(!filter_products){
                 return res.status(404).send({
-                    data: [],
+                    data: {},
                     message: [{ msg:'Product no encontrado'}],
                     success: false
                 });
@@ -54,11 +54,11 @@ if (!errors.isEmpty()) {
             if(filter_products && filter_users){
                 const update_product_and_user = await updateProduct.create(req.body);
                 return res.status(200).send({
-                    data: [{
+                    data: {
                         userId: update_product_and_user.userId,
                         productId: update_product_and_user.productId,
                         current_existence: update_product_and_user.current_existence
-                    }],
+                    },
                     message: [{ msg:'Actualización del producto creada correctamente'}],
                     success: true
                 });
@@ -66,7 +66,7 @@ if (!errors.isEmpty()) {
 
     }catch(error){
         return res.status(500).send({
-            data: [],
+            data: {},
             message: [{ msg:error.errors[0].message}],
             success: false
         });
@@ -85,25 +85,25 @@ if (!errors.isEmpty()) {
         const filter_products = await updateProduct.findByPk(id);
         if(filter_products){
             return res.status(200).send({
-                data: [{
+                data: {
                     id: filter_products.id,
                     userId: filter_products.userId,
                     productId:  filter_products.productId,
                     current_existence: filter_products.current_existence,
-                }],
+                },
                 message: [{ msg:'Producto actualizado encontrado'}],
                 success: true
             });
         }else{
             return res.status(404).send({
-                data: [],
+                data: {},
                 message: [{ msg:'Producto actualizado no encontrado'}],
                 success: false
             });
         }
     }catch(error){
         return res.status(500).send({
-            data: [],
+            data: {},
             message: [{ msg:error.errors[0].message}],
             success: false
         });
@@ -166,7 +166,7 @@ if (!errors.isEmpty()) {
                 });
             }else{
                 return res.status(404).send({
-                    data: [],
+                    data: {},
                     message: [{ msg:'Productos actualizados no encontrados'}],
                     success: false
                 });
@@ -195,7 +195,7 @@ if (!errors.isEmpty()) {
                 });
             }else{
                 return res.status(404).send({ 
-                    data: [],
+                    data: {},
                     message: [{ msg:'Productos actualizados no encontrados'}],
                     success: false
                 });
@@ -203,7 +203,7 @@ if (!errors.isEmpty()) {
         }
     }catch(error){
         return res.status(500).send({
-            data: [],
+            data: {},
             message: [{ msg:error.errors[0].message}],
             success: false
         });

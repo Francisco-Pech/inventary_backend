@@ -24,7 +24,7 @@ if (!errors.isEmpty()) {
         }
     });
     return res.status(422).json({
-        data : [],
+        data : {},
         message: _errors,
         success : false,
     })
@@ -38,10 +38,10 @@ if (!errors.isEmpty()) {
 
             const users_create = await Users.create(req.body);
             return res.status(201).send({
-                data: [{
+                data: {
                     id: req.body.id,
                     username: req.body.username
-                }],
+                },
                 message: [{
                     msg: 'Usuario creado correctamente'
                 }],
@@ -49,7 +49,7 @@ if (!errors.isEmpty()) {
             });
         }else{
             return res.status(409).send({
-                data : [],
+                data : {},
                 message: [{msg: 'Username ya utilizado'}],
                 success : false,
             });
@@ -57,7 +57,7 @@ if (!errors.isEmpty()) {
     }catch(error){
         // token / username repetido
         return res.status(500).send({
-            data: [],
+            data: {},
             message : [{msg : error.errors[0].message}],
             success: false
         });
@@ -76,23 +76,23 @@ exports.show = async (req,res) =>{
         const filter_users = await Users.findByPk(id);
         if(filter_users){
             return res.status(201).send({
-                data: [{
+                data: {
                     id: filter_users.id,
                     username: filter_users.username
-                }],
+                },
                 message: [{msg: 'Usuario encontrado correctamente'}],
                 success: true
             });
         }else{
             return res.status(404).send({
-                data: [],
+                data: {},
                 message: [{msg: 'Usuario no encontrado'}],
                 success: false
             });
         }
     }catch(error){
         return res.status(500).send({
-            data: [],
+            data: {},
             message: [{msg: error.errors[0].message}],
             success: false
         });
@@ -124,14 +124,14 @@ exports.show = async (req,res) =>{
                 });
         }else{
             return res.status(404).send({
-                data : [],
+                data : {},
                 message: [{ msg:'Usuario no encontrado'}],
                 success : false,
             });
         }
     }catch(error){
         return res.status(500).send({
-            data: [], 
+            data: {}, 
             message: [{msg: error.errors[0].message}],
             success : false
         });
@@ -155,7 +155,7 @@ if (!errors.isEmpty()) {
         }
     });
     return res.status(422).json({
-        data : [],
+        data : {},
         message: _errors,
         success : false,
     })
@@ -169,7 +169,7 @@ if (!errors.isEmpty()) {
             
             if (data_user_update[0]== 0) {
                 return res.status(404).send({
-                    data : [],
+                    data : {},
                     message: [{ msg: 'Usuario no encontrado' }],
                     success : false,
                     
@@ -177,16 +177,16 @@ if (!errors.isEmpty()) {
             }else{
                 const users_update = await Users.findByPk(id);
                 return res.status(201).send({
-                    data: [{
+                    data: {
                         username : users_update.username
-                    }],
+                    },
                     message: [{msg: 'Usuario actualizado correctamente'}],
                     success: true
                 });
             }
         }else{
             return res.status(404).send({
-                data : [],
+                data : {},
                 message: [{ msg: 'Usuario no encontrado' }],
                 success : false,
             });
@@ -194,7 +194,7 @@ if (!errors.isEmpty()) {
 
     }catch(error){
         return res.status(500).send({
-            data : [],
+            data : {},
             message : [{ msg: error.errors[0].message}],
             success : false,
         });
@@ -215,13 +215,13 @@ exports.delete = async (req,res) =>{
         if(filter_users){
             filter_users.destroy();
             return res.status(200).send({
-                data : [],
+                data : {},
                 message: [{ msg: 'Usuario eliminado correctamente' }],
                 success : true,
             });
         }else{
             return res.status(404).send({
-                data: [],
+                data: {},
                 message: [{msg: 'Usuario no encontrado'}],
                 success: false
             });
@@ -229,7 +229,7 @@ exports.delete = async (req,res) =>{
 
     }catch(error){
         return res.status(500).send({
-            data: [], 
+            data: {}, 
             message: [{ msg: error.errors[0].message }],
             success: false,
         });

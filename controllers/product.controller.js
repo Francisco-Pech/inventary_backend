@@ -18,7 +18,7 @@ if (!errors.isEmpty()) {
         }
     });
     return res.status(422).json({
-        data : [],
+        data : {},
         message: _errors,
         success : false,
     })
@@ -37,7 +37,7 @@ if (!errors.isEmpty()) {
             if(!filter_products){
                 const product_create = await Products.create(req.body);
                 return res.status(200).send({
-                    data : [{
+                    data : {
                         code: product_create.code,
                         name: product_create.name,
                         generic_compound: product_create.generic_compound,
@@ -49,21 +49,21 @@ if (!errors.isEmpty()) {
                         order: product_create.order,
                         fixed_background: product_create.fixed_background,
                         laboratory: product_create.laboratory
-                    }],
+                    },
                     message: [{msg: 'Producto creado correctamente'}],
                     success : true,
 
                 });
             }else{
                 return res.status(202).send({
-                    data : [],
+                    data : {},
                     message: [{ msg: 'Código de barras repetido'}],
                     success : false
                 });
             }
     }catch(error){
         return res.status(500).send({
-            data: [],
+            data: {},
             message : [{msg: error.errors[0].message}],
             success : false
         });
@@ -82,7 +82,7 @@ exports.show = async (req,res) =>{
         const filter_products = await Products.findByPk(id);
         if(filter_products){
             return res.status(200).send({
-                data : [{
+                data : {
                 id: filter_products.id,
                 code: filter_products.code,
                 name: filter_products.name,
@@ -95,20 +95,20 @@ exports.show = async (req,res) =>{
                 order: filter_products.order,
                 fixed_background: filter_products.fixed_background,
                 laboratory: filter_products.laboratory
-                }],
+                },
                 message : [{msg: 'Producto encontrado exitosamente'}],
                 success : true
             });
         }else{
             return res.status(404).send({
-                data : [],
+                data : {},
                 message: [{msg : 'Producto no encontrado'}],
                 success : false,
             });
         }
     }catch(error){
         return res.status(500).send({
-            data : [],
+            data : {},
             message: [{msg: error.errors[0].message}],
             success : false
         });
@@ -181,7 +181,7 @@ exports.show = async (req,res) =>{
                 });
             }else{
                 return res.status(404).send({
-                    data : [],
+                    data : {},
                     message: [{ msg: 'Producto no encontrado'}],
                     success : false
                 });
@@ -218,7 +218,7 @@ exports.show = async (req,res) =>{
                  });
             }else{
                 return res.status(404).send({
-                    data : [],
+                    data : {},
                     message: [{msg: 'Producto no encontrado'}],
                     success : false,
                 });
@@ -227,7 +227,7 @@ exports.show = async (req,res) =>{
         
     }catch(error){
         return res.status(500).send({
-            data : [],
+            data : {},
             message: [{msg : error.message}],
             success : false,
         });
@@ -251,7 +251,7 @@ if (!errors.isEmpty()) {
         }
     });
     return res.status(422).json({
-        data : [],
+        data : {},
         message: _errors,
         success : false,
     })
@@ -269,14 +269,14 @@ if (!errors.isEmpty()) {
 
                 if (data_product_update[0]== 0) {
                     return res.status(404).send({
-                        data : [],
+                        data : {},
                         message: [{ msg: 'Producto no encontrado'}],
                         success : false
                     });
                 }else{
                     const data_product_update_create = await Products.findByPk(id); 
                     return res.status(200).send({
-                        data : [{
+                        data : {
                             code: data_product_update_create.code,
                             name: data_product_update_create.name,
                             generic_compound: data_product_update_create.generic_compound,
@@ -288,21 +288,21 @@ if (!errors.isEmpty()) {
                             order: data_product_update_create.order,
                             fixed_background: data_product_update_create.fixed_background,
                             laboratory: data_product_update_create.laboratory
-                        }],
+                        },
                         message: [{msg: 'Producto actualizado correctamente'}],
                         success : true,
                     });
                 }
             }else{
                 return res.status(404).send({
-                    data : [],
+                    data : {},
                     message: [{msg: 'Producto no encontrado'}],
                     success : false
                 });
             }
     }catch(error){
         return res.status(500).send({
-            data : [],
+            data : {},
             message :   [{msg: error.errors[0].message}],
             success : false
         });
@@ -323,13 +323,13 @@ if (!errors.isEmpty()) {
         if(filter_products){
             filter_products.destroy();
             return res.status(200).send({
-                data : [],
+                data : {},
                 message: [{msg: 'Producto eliminado correctamente'}],
                 success : true,
             });
         }else{
             return res.status(404).send({
-                data : [],
+                data : {},
                 message: [{msg: 'Producto no encontrado'}],
                 success : false
             });
@@ -337,7 +337,7 @@ if (!errors.isEmpty()) {
 
     }catch(error){
         return res.status(500).send({
-            data : [], 
+            data : {}, 
             message: [{msg: error.errors[0].message}],
             success: false
         });
