@@ -8,44 +8,59 @@ require('dotenv').config();
  * @returns 
  */
  exports.create = async (req,res) =>{
-    try{
-        if(!req.body.code){
-            return res.status(400).send({
-                message: 'Barcode required'
-            });
-        }else if(!req.body.name){
-            return res.status(400).send({
-                message: 'Name required'
-            });
-        }else if(!req.body.presentation){
-            return res.status(400).send({
-                message: 'Presentation required'
-            });
-        }else if(!req.body.price){
-            return res.status(400).send({
-                message: 'Price required'
-            });
-        }else if(!req.body.public_price){
-            return res.status(400).send({
-                message: 'Public price required'
-            });
-        }else if(!req.body.existence){
-            return res.status(400).send({
-                message: 'Existence required'
-            });
-        }else if(!req.body.order){
-            return res.status(400).send({
-                message: 'Order required'
-            });
-        }else if(!req.body.fixed_background){
-            return res.status(400).send({
-                message: 'Fixed background required'
-            });
+// Express validator
+const errors = validationResult(req)
+if (!errors.isEmpty()) {
+    let _errors = errors.array().map( function filter (element) {
+        return {
+            msg: element.msg,
         }
+    });
+    return res.status(422).json({
+        data : [],
+        message: _errors,
+        success : false,
+    })
+}
+    try{
+
+// if(!req.body.code){
+//     return res.status(400).send({
+//         message: 'Barcode required'
+//     });
+// }else if(!req.body.name){
+//     return res.status(400).send({
+//         message: 'Name required'
+//     });
+// }else if(!req.body.presentation){
+//     return res.status(400).send({
+//         message: 'Presentation required'
+//     });
+// }else if(!req.body.price){
+//     return res.status(400).send({
+//         message: 'Price required'
+//     });
+// }else if(!req.body.public_price){
+//     return res.status(400).send({
+//         message: 'Public price required'
+//     });
+// }else if(!req.body.existence){
+//     return res.status(400).send({
+//         message: 'Existence required'
+//     });
+// }else if(!req.body.order){
+//     return res.status(400).send({
+//         message: 'Order required'
+//     });
+// }else if(!req.body.fixed_background){
+//     return res.status(400).send({
+//         message: 'Fixed background required'
+//     });
+// }
         
         // Verificamos que los parámetros necesarios estén completos
-        if(req.body.code && req.body.name && req.body.presentation && req.body.price && req.body.public_price 
-           && req.body.existence && req.body.order && req.body.fixed_background){
+        // if(req.body.code && req.body.name && req.body.presentation && req.body.price && req.body.public_price 
+        //    && req.body.existence && req.body.order && req.body.fixed_background){
         
             // Hacemos uso de parámetros en mayúsculas
             req.body.name = (req.body.name).toUpperCase();
@@ -58,17 +73,24 @@ require('dotenv').config();
             if(!filter_products){
                 const product_create = await Products.create(req.body);
                 return res.status(200).send({
-                    message: 'Product create successfully'
+                    data : [],
+                    message: [{msg: 'Producto creado correctamente'}],
+                    success : true,
+
                 });
             }else{
                 return res.status(202).send({
-                    message: 'Existing product code'
+                    data : [],
+                    message: [{ msg: 'Código de barras repetido'}],
+                    success : false
                 });
             }
-        }
+        // }
     }catch(error){
         return res.status(406).send({
-            message : error.errors[0].message
+            data: [],
+            message : [{msg: error.errors[0].message}],
+            success : false
         });
     }
 }
@@ -85,6 +107,7 @@ exports.show = async (req,res) =>{
         const filter_products = await Products.findByPk(id);
         if(filter_products){
             return res.status(200).send({
+                data : [{
                 id: filter_products.id,
                 code: filter_products.code,
                 name: filter_products.name,
@@ -97,16 +120,22 @@ exports.show = async (req,res) =>{
                 order: filter_products.order,
                 fixed_background: filter_products.fixed_background,
                 message: 'Product found successfully'
+                }],
+                message : [],
+                success : true
             });
         }else{
             return res.status(404).send({
-                message: 'Product not found'
+                data : [],
+                message: [{msg : 'Product not found'}],
+                success : false,
             });
         }
     }catch(error){
         return res.status(500).send({
+            data : [],
             error: error, 
-            message: error.message
+            message: [{msg: error.errors[0].message}]
         });
     }
 }
