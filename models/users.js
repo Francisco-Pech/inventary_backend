@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Users.init({
     token: {
+      unique:true,
       allowNull: false,
       type: DataTypes.STRING
     },
@@ -36,13 +37,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate:{
         min: 5,                 
-      }
-    },
-    job_title: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate:{
-        isIn: [['Administrator', 'Seller']]
       }
     }
   }, {
