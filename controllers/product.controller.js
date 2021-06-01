@@ -118,10 +118,9 @@ exports.show = async (req,res) =>{
                 public_price: filter_products.public_price,
                 existence: filter_products.existence,
                 order: filter_products.order,
-                fixed_background: filter_products.fixed_background,
-                message: 'Product found successfully'
+                fixed_background: filter_products.fixed_background
                 }],
-                message : [],
+                message : [{msg: 'Producto encontrado exitosamente'}],
                 success : true
             });
         }else{
@@ -135,7 +134,8 @@ exports.show = async (req,res) =>{
         return res.status(500).send({
             data : [],
             error: error, 
-            message: [{msg: error.errors[0].message}]
+            message: [{msg: error.errors[0].message}],
+            success : false
         });
     }
 }
@@ -201,11 +201,14 @@ exports.show = async (req,res) =>{
                 return res.status(200).send({ 
                     data: data_product, 
                     finish_page: finish_page, 
-                    message: 'Products found successfully' 
+                    success : true,
+                    message: [{msg: 'Products found successfully'}] 
                 });
             }else{
                 return res.status(404).send({
-                    message: 'Products not found'
+                    data : [],
+                    message: [{ msg: 'Products not found'}],
+                    success : false
                 });
             }
 
@@ -235,19 +238,24 @@ exports.show = async (req,res) =>{
                 return res.status(200).send({ 
                     data: data_product, 
                     finish_page: finish_page,
-                    message: 'Products found successfully' 
+                    message: [{msg: 'Products found successfully'}],
+                    success : true 
                  });
             }else{
                 return res.status(404).send({
-                    message: 'Products not found'
+                    data : [],
+                    message: [{msg: 'Products not found'}],
+                    success : false,
                 });
             }
         }
         
     }catch(error){
         return res.status(500).send({
+            data : [],
             error: error, 
-            message: error.message
+            message: [{msg : error.message}],
+            success : false,
         });
     }
 }
@@ -260,45 +268,59 @@ exports.show = async (req,res) =>{
  */
  exports.update = async (req,res) =>{
     const id = req.params.id;
+    // Express validator
+const errors = validationResult(req)
+if (!errors.isEmpty()) {
+    let _errors = errors.array().map( function filter (element) {
+        return {
+            msg: element.msg,
+        }
+    });
+    return res.status(422).json({
+        data : [],
+        message: _errors,
+        success : false,
+    })
+}
     try{
 
-        if(!req.body.code){
-            return res.status(400).send({
-                message: 'Barcode required'
-            });
-        }else if(!req.body.name){
-            return res.status(400).send({
-                message: 'Name required'
-            });
-        }else if(!req.body.presentation){
-            return res.status(400).send({
-                message: 'Presentation required'
-            });
-        }else if(!req.body.price){
-            return res.status(400).send({
-                message: 'Price required'
-            });
-        }else if(!req.body.public_price){
-            return res.status(400).send({
-                message: 'Public price required'
-            });
-        }else if(!req.body.existence){
-            return res.status(400).send({
-                message: 'Existence required'
-            });
-        }else if(!req.body.order){
-            return res.status(400).send({
-                message: 'Order required'
-            });
-        }else if(!req.body.fixed_background){
-            return res.status(400).send({
-                message: 'Fixed background required'
-            });
-        }
+        // if(!req.body.code){
+        //     return res.status(400).send({
+        //         message: 'Barcode required'
+        //     });
+        // }else if(!req.body.name){
+        //     return res.status(400).send({
+        //         message: 'Name required'
+        //     });
+        // }else if(!req.body.presentation){
+        //     return res.status(400).send({
+        //         message: 'Presentation required'
+        //     });
+        // }else if(!req.body.price){
+        //     return res.status(400).send({
+        //         message: 'Price required'
+        //     });
+        // }else if(!req.body.public_price){
+        //     return res.status(400).send({
+        //         message: 'Public price required'
+        //     });
+        // }else if(!req.body.existence){
+        //     return res.status(400).send({
+        //         message: 'Existence required'
+        //     });
+        // }else if(!req.body.order){
+        //     return res.status(400).send({
+        //         message: 'Order required'
+        //     });
+        // }else if(!req.body.fixed_background){
+        //     return res.status(400).send({
+        //         message: 'Fixed background required'
+        //     });
+        // }
 
         // Verificamos que los parámetros necesarios estén completos
-        if(req.body.code && req.body.name && req.body.presentation && req.body.price && req.body.public_price 
-            && req.body.existence && req.body.order && req.body.fixed_background){
+        // if(req.body.code && req.body.name && req.body.presentation && req.body.price && req.body.public_price 
+        //     && req.body.existence && req.body.order && req.body.fixed_background){
 
                 const filter_products = await Products.findByPk(id);
                 if(filter_products){
@@ -311,23 +333,31 @@ exports.show = async (req,res) =>{
 
                 if (data_product_update[0]== 0) {
                     return res.status(404).send({
-                        message: 'Product not found'
+                        data : [],
+                        message: [{ msg: 'Product not found'}],
+                        success : false
                     });
                 }else{
                     const data_product_update_create = await Products.findByPk(id); 
                     return res.status(200).send({
-                        message: 'Product update successfully'
+                        data : [],
+                        message: [{msg: 'Product update successfully'}],
+                        success : true,
                     });
                 }
             }else{
                 return res.status(404).send({
-                    message: 'Product not found'
+                    data : [],
+                    message: [{msg: 'Product not found'}],
+                    success : false
                 });
             }
-        }
+        // }
     }catch(error){
         return res.status(406).send({
-            message : error.errors[0].message
+            data : [],
+            message :   [{msg: error.errors[0].message}],
+            success : false
         });
     }
 }
@@ -346,18 +376,24 @@ exports.show = async (req,res) =>{
         if(filter_products){
             filter_products.destroy();
             return res.status(200).send({
-                message: 'Product deleted successfully'
+                data : [],
+                message: [{msg: 'Product deleted successfully'}],
+                success : true,
             });
         }else{
             return res.status(404).send({
-                message: 'Product not found'
+                data : [],
+                message: [{msg: 'Product not found'}],
+                success : false
             });
         }
 
     }catch(error){
         return res.status(500).send({
+            data : [],
             error: error, 
-            message: error.message
+            message: [{msg: error.errors[0].message}],
+            success: false
         });
     }
  }
