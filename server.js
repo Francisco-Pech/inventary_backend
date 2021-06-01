@@ -6,5 +6,5 @@ const server = http.createServer(app);
 
 
 server.listen(port,() => {
-    console.log(`Servidor 1 inicializado en el puerto ${port}`)
+    console.log(`Servidor inicializado en el puerto ${port}`)
 });

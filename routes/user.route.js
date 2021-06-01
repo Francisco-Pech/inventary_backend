@@ -20,6 +20,13 @@ router.post('/users',isLogged,
 ]
 ,users.create);
 
+/* Cambiar contraseña */
+router.post('/users/changePassword/:id',isLogged, 
+[
+    check('new_password').isLength({ min: 5 }).withMessage('Contraseña debe ser mayor a 5 caracteres'),
+]
+,users.changePassword);
+
 /* Actualizamos los datos del usuario  */
 router.put('/users/:id', isLogged,
 [
