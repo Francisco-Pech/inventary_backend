@@ -3,7 +3,12 @@ const app = require('./app');
 const cors = require('cors');
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+  }));
 
 server.listen(port, () => {
     console.log(`Servidor inicializado en el puerto ${port}`)

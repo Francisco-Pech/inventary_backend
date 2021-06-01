@@ -32,13 +32,13 @@ exports.create = async (req,res) =>{
                     message: 'User create successfully'
                 });
             }else{
-                return res.status(400).send({
+                return res.status(202).send({
                     message:'Existing username'
                 });
             }
         }
     }catch(error){
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }
@@ -82,17 +82,15 @@ exports.show = async (req,res) =>{
  exports.index = async (req,res) =>{
     try{
         const filter_users = await Users.findAll();
-        const count_users = await Users.count();
-        const data_user = [];
 
-        for (let i = 0; i < count_users; i++) {
-           data_user[i] = {
-                id: filter_users[i].id,
-                username: filter_users[i].username
-           }
-         }
-        
         if(filter_users){
+            const data_user = filter_users.map(function filter_user_map(element) {
+                return {
+                    id: element.id,
+                    username: element.username
+                }
+              });
+        
             return res.status(200).send({
                 data: data_user,
                 message: 'Users found successfully'
@@ -156,7 +154,7 @@ exports.show = async (req,res) =>{
         }
 
     }catch(error){
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }

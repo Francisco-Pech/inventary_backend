@@ -12,8 +12,6 @@ require('dotenv').config();
  */
  exports.create = async (req,res) =>{
     try{
-
-        console.log(req.body);
         if(!req.body.userId){
             return res.status(400).send({
                 message: 'userId required'
@@ -32,17 +30,21 @@ require('dotenv').config();
 
             const filter_products = await Products.findByPk(req.body.productId);
             const filter_users = await Users.findByPk(req.body.userId);
-
-            if(!filter_products){
-                return res.status(400).send({
-                    message: 'Product not found'
+        
+            if(!filter_products && !filter_users){
+                return res.status(404).send({
+                    message: 'Product and User not found'
                 });
             }else if(!filter_users){
-                return res.status(400).send({
+                return res.status(404).send({
                     message: 'User not found'
                 });
+            }else if(!filter_products){
+                return res.status(404).send({
+                    message: 'Product not found'
+                });
             }
-
+            
             if(filter_products && filter_users){
                 const update_product_and_user = await updateProduct.create(req.body);
                 return res.status(200).send({
@@ -127,16 +129,14 @@ require('dotenv').config();
             // Filtramos todos las actualizaciones de productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await updateProduct.findAndCountAll({ where: results_filter_updateproducts, order: [['id', 'DESC']], offset: offset, limit: format_for_page});
 
-            const data_update_product = [];
-
-            for (let i = 0; i < count; i++) {
-            data_update_product[i] = {
-                    id: rows[i].id,
-                    userId: rows[i].userId,
-                    productId: rows[i].productId,
-                    current_existence: rows[i].current_existence,
-            }
-            }
+            const data_update_product = rows.map(function filter_updateproduct_map(element) {
+                return {
+                    id: element.id,
+                    userId: element.userId,
+                    productId: element.productId,
+                    current_existence: element.current_existence
+                }
+              });
 
             if(data_update_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
@@ -155,16 +155,15 @@ require('dotenv').config();
             // Filtramos todos los productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await updateProduct.findAndCountAll({order: [['id', 'DESC']], offset: offset, limit: format_for_page});
          
-            const data_update_product = [];
+            const data_update_product = rows.map(function filter_updateproduct_map(element) {
+                return {
+                    id: element.id,
+                    userId: element.userId,
+                    productId: element.productId,
+                    current_existence: element.current_existence
+                }
+              });
 
-            for (let i = 0; i < count; i++) {
-            data_update_product[i] = {
-                    id: rows[i].id,
-                    userId: rows[i].userId,
-                    productId: rows[i].productId,
-                    current_existence: rows[i].current_existence,
-            }
-            }
             if(data_update_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
                 return res.status(200).send({ 

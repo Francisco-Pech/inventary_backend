@@ -1,4 +1,4 @@
-//npx sequelize-cli model:generate --name Products --attributes code:string,name:string,generic_compound:string,specs:string,presentation:string,price:float,public_price:float,existence:integer,order:integer,fixed_background:integer
+//npx sequelize-cli model:generate --name Products --attributes code:string,name:string,generic_compound:string,specs:string,presentation:string,price:float,public_price:float,existence:integer,order:integer,fixed_background:integer,laboratory:string
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -54,6 +54,10 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
         type: Sequelize.INTEGER
+      },
+      laboratory: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

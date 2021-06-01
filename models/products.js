@@ -1,5 +1,8 @@
+
 'use strict';
-const {Model} = require('sequelize');
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Products extends Model {
     /**
@@ -12,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Products.hasMany(models.updateProduct, {
         foreignKey: "productId",
         as: "updateproducts"
-      })
+      });
     }
   };
   Products.init({
@@ -61,6 +64,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0,
       type: DataTypes.INTEGER
+    },
+    laboratory:{ 
+      allowNull: true,
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
@@ -68,4 +75,3 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Products;
 };
-

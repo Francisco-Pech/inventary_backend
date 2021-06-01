@@ -55,20 +55,19 @@ require('dotenv').config();
 
             // Filtramos para verificar que no exista el código de barras 
             const filter_products = await Products.findOne({ where: { code: req.body.code } });
-            const product_create = await Products.create(req.body);
             if(!filter_products){
+                const product_create = await Products.create(req.body);
                 return res.status(200).send({
                     message: 'Product create successfully'
                 });
             }else{
-                return res.status(400).send({
+                return res.status(202).send({
                     message: 'Existing product code'
                 });
             }
         }
     }catch(error){
-
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }
@@ -149,23 +148,24 @@ exports.show = async (req,res) =>{
 
             // Filtramos todos los productos que cumplan con las querys y la cantidad de ellos
             const { count, rows } = await Products.findAndCountAll({ where: results_filter_products, order: [['id', 'DESC']], offset: offset, limit: format_for_page});
-         
-            const data_product = [];
-            for (let i = 0; i < count; i++) {
-            data_product[i] = {
-                id: rows[i].id,
-                code: rows[i].code,
-                name: rows[i].name,
-                generic_compound: rows[i].generic_compound,
-                specs: rows[i].specs,
-                presentation: rows[i].presentation,
-                price: rows[i].price,
-                public_price: rows[i].public_price,
-                existence: rows[i].existence,
-                order: rows[i].order,
-                fixed_background: rows[i].fixed_background
-            }
-            }
+
+            
+            const data_product = rows.map(function filter_product_map(element) {
+                return {
+                    id: element.id,
+                    code: element.code,
+                    name: element.name,
+                    generic_compound: element.generic_compound,
+                    specs: element.specs,
+                    presentation: element.presentation,
+                    price: element.price,
+                    public_price: element.public_price,
+                    existence: element.existence,
+                    order: element.order,
+                    fixed_background: element.fixed_background,
+                    laboratory: element.laboratory
+                }
+              });
 
             if(data_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
@@ -184,22 +184,22 @@ exports.show = async (req,res) =>{
        
             const { count, rows } = await Products.findAndCountAll({ order: [['id', 'DESC']], offset: offset, limit: format_for_page});
      
-            const data_product = [];
-            for (let i = 0; i < count; i++) {
-            data_product[i] = {
-                id: rows[i].id,
-                code: rows[i].code,
-                name: rows[i].name,
-                generic_compound: rows[i].generic_compound,
-                specs: rows[i].specs,
-                presentation: rows[i].presentation,
-                price: rows[i].price,
-                public_price: rows[i].public_price,
-                existence: rows[i].existence,
-                order: rows[i].order,
-                fixed_background: rows[i].fixed_background
-            }
-            }
+            const data_product = rows.map(function filter_product_map(element) {
+                return {
+                    id: element.id,
+                    code: element.code,
+                    name: element.name,
+                    generic_compound: element.generic_compound,
+                    specs: element.specs,
+                    presentation: element.presentation,
+                    price: element.price,
+                    public_price: element.public_price,
+                    existence: element.existence,
+                    order: element.order,
+                    fixed_background: element.fixed_background,
+                    laboratory: element.laboratory
+                }
+              });
 
             if(data_product.length > 0){
                 const finish_page = Math.ceil((count / format_for_page));
@@ -290,10 +290,14 @@ exports.show = async (req,res) =>{
                         message: 'Product update successfully'
                     });
                 }
+            }else{
+                return res.status(404).send({
+                    message: 'Product not found'
+                });
             }
         }
     }catch(error){
-        return res.status(409).send({
+        return res.status(406).send({
             message : error.errors[0].message
         });
     }

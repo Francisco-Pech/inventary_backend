@@ -1,3 +1,4 @@
+
 'use strict';
 const {
   Model
@@ -14,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Users.hasMany(models.updateProduct, {
         foreignKey: "userId",
         as: "updateproducts"
-      })
+      });
     }
   };
   Users.init({
@@ -35,6 +36,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate:{
         min: 5,                 
+      }
+    },
+    job_title: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate:{
+        isIn: [['Administrator', 'Seller']]
       }
     }
   }, {

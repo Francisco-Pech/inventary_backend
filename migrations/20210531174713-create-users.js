@@ -1,4 +1,4 @@
-//npx sequelize-cli model:generate --name Users --attributes token:string,users:string,password:string
+//npx sequelize-cli model:generate --name Users --attributes token:string,users:string,password:string,job_title:string
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -28,6 +28,10 @@ module.exports = {
           min: 5,                 
         }
       },
+      job_title: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -39,6 +43,13 @@ module.exports = {
     },{
       charset: 'utf8', 
       collate: 'utf8_general_ci'
+    });
+    await queryInterface.addConstraint('Users', {
+      fields: ['job_title'],
+      type: 'check',
+      where: {
+        job_title: ['Administrator','Seller']
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {

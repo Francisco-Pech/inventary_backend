@@ -1,4 +1,3 @@
-
 const { Users }=require('../models/index')
 
 exports.isLogged = async function(req, res, next) {
@@ -18,7 +17,7 @@ exports.isLogged = async function(req, res, next) {
         }
     }else{
         res.status(401).send({
-            message: "No Autorizado [No Bearer Token]"
+            message: "Unauthorized [Bearer Token]"
         });
     }
 }

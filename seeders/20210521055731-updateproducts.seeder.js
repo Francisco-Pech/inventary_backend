@@ -1,3 +1,4 @@
+//sequelize db:seed --seed 20210521055731-updateproducts.seeder.js
 'use strict';
 const faker=require('faker');
 
@@ -6,32 +7,32 @@ module.exports = {
     let datas = [];
     // Esto se cambia según el ID del usuario y producto ya que se encuentran relacionadas
     datas.push({
-        userId:26,
-        productId:63,
+        userId:1,
+        productId:1,
         current_existence:faker.datatype.number(100),
         createdAt:new Date(), 
         updatedAt:new Date(),
     },{
-        userId:26,
-        productId:64,
+        userId:1,
+        productId:3,
         current_existence:faker.datatype.number(100),
         createdAt:new Date(), 
         updatedAt:new Date(),
     },{
-        userId:27,
-        productId:66,
+        userId:2,
+        productId:3,
         current_existence:faker.datatype.number(100),
         createdAt:new Date(), 
         updatedAt:new Date(),
     },{
-      userId:28,
-        productId:62,
+      userId:3,
+        productId:4,
         current_existence:faker.datatype.number(100),
         createdAt:new Date(), 
         updatedAt:new Date(),
     },{
-      userId:30,
-        productId:62,
+      userId:4,
+        productId:5,
         current_existence:faker.datatype.number(100),
         createdAt:new Date(), 
         updatedAt:new Date(),
