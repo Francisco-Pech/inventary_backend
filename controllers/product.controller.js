@@ -1,4 +1,5 @@
 const { Products }=require('../models/index')
+const { check , validationResult } = require('express-validator');
 require('dotenv').config();
 
 /**
@@ -39,8 +40,15 @@ if (!errors.isEmpty()) {
                     data : [{
                         code: product_create.code,
                         name: product_create.name,
+                        generic_compound: product_create.generic_compound,
+                        specs: product_create.specs,
                         presentation: product_create.presentation,
-                        public_price: product_create.public_price
+                        price: product_create.price,
+                        public_price: product_create.public_price,
+                        existence: product_create.existence,
+                        order: product_create.order,
+                        fixed_background: product_create.fixed_background,
+                        laboratory: product_create.laboratory
                     }],
                     message: [{msg: 'Producto creado correctamente'}],
                     success : true,
@@ -268,7 +276,19 @@ if (!errors.isEmpty()) {
                 }else{
                     const data_product_update_create = await Products.findByPk(id); 
                     return res.status(200).send({
-                        data : [],
+                        data : [{
+                            code: data_product_update_create.code,
+                            name: data_product_update_create.name,
+                            generic_compound: data_product_update_create.generic_compound,
+                            specs: data_product_update_create.specs,
+                            presentation: data_product_update_create.presentation,
+                            price: data_product_update_create.price,
+                            public_price: data_product_update_create.public_price,
+                            existence: data_product_update_create.existence,
+                            order: data_product_update_create.order,
+                            fixed_background: data_product_update_create.fixed_background,
+                            laboratory: data_product_update_create.laboratory
+                        }],
                         message: [{msg: 'Producto actualizado correctamente'}],
                         success : true,
                     });
@@ -281,7 +301,7 @@ if (!errors.isEmpty()) {
                 });
             }
     }catch(error){
-        return res.status(406).send({
+        return res.status(500).send({
             data : [],
             message :   [{msg: error.errors[0].message}],
             success : false
