@@ -26,11 +26,7 @@ exports.create = async (req,res) =>{
             if(!filter_users){
                // Encriptamos la contraseña
                 req.body.password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
-                
-                
-                req.body.token = 1;
-
-
+                req.body.token = jwt.sign(req.body.username, process.env.TOKEN_SECRET);
                 const users_create = await Users.create(req.body);
                 return res.status(200).send({
                     message: 'User create successfully'

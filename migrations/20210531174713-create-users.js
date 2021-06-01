@@ -10,6 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       token: {
+        unique:true,
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -28,10 +29,6 @@ module.exports = {
           min: 5,                 
         }
       },
-      job_title: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -43,13 +40,6 @@ module.exports = {
     },{
       charset: 'utf8', 
       collate: 'utf8_general_ci'
-    });
-    await queryInterface.addConstraint('Users', {
-      fields: ['job_title'],
-      type: 'check',
-      where: {
-        job_title: ['Administrator','Seller']
-      }
     });
   },
   down: async (queryInterface, Sequelize) => {

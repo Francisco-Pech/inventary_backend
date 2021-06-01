@@ -5,11 +5,11 @@ const router = express.Router();
 
 //------------------------------------------------Rutas del usuarios--------------------------------------//
 /* Iniciamos session */
-router.post('/user/login',session.login);
+router.post('/users/login',session.login);
 
 
 /* Finalizamos session */
-router.post('/user/logout',isLogged,session.logout);
+router.post('/users/logout',isLogged,session.logout);
 
 //--------------------------------------------------------------------------------------------------------//
 
