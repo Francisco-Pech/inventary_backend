@@ -235,3 +235,64 @@ exports.delete = async (req,res) =>{
         });
     }
 }
+
+/***
+ * Se cambia la contraseña del usuario
+ * @param {*} req representa a require el cual obtiene los datos desde el cliente
+ * @param {*} res da la respuesta hacia el cliente
+ * @returns 
+ */
+exports.changePassword = async (req,res) =>{
+const id = req.params.id;
+// Express validator
+const errors = validationResult(req)
+if (!errors.isEmpty()) {
+    let _errors = errors.array().map( function filter (element) {
+        return {
+            msg: element.msg,
+        }
+    });
+    return res.status(422).json({
+        data : [],
+        message: _errors,
+        success : false,
+    })
+}
+console.log("ok...");
+    try{
+        const filter_users = await Users.findByPk(id);
+
+        if(filter_users){  
+            req.body.password = bcrypt.hashSync(req.body.new_password, Number.parseInt(authConfig.rounds));
+            const data_user_update = await Users.update({password: req.body.password}, {where:{id : id}});
+            if (data_user_update[0]== 0) {
+                return res.status(404).send({
+                    data : [],
+                    message: [{ msg: 'Usuario no encontrado' }],
+                    success : false,
+                    
+                });
+            }else{
+                // const users_update = await Users.findByPk(id);
+                return res.status(201).send({
+                    data: [],
+                    message: [{msg: 'Contraseña actualizada correctamente'}],
+                    success: true
+                });
+            }
+        }else{
+            return res.status(404).send({
+                data : [],
+                message: [{ msg: 'Usuario no encontrado' }],
+                success : false,
+            });
+        }
+
+    }catch(error){
+        return res.status(500).send({
+            data : [],
+            message : [{ msg: error.errors[0].message}],
+            success : false,
+        });
+    }
+}
