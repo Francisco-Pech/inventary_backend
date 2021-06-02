@@ -9,14 +9,14 @@ exports.isLogged = async function(req, res, next) {
         }else{
 
             res.status(401).send({
-                data: [],
+                data: {},
                 message: [{ msg: "No Autorizado" }],
                 success: false
             });
         }
     }else{
         res.status(401).send({
-            data: [],
+            data: {},
             message: [{ msg: "Falta cabecera de autentificación [Bearer Token]" }],
             success: false
         });
