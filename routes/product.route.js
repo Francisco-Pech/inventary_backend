@@ -20,9 +20,9 @@ router.post('/products', isLogged,
     check('presentation').notEmpty().withMessage('Presentación requerido'),
     check('price').notEmpty().withMessage('Precio requerido'),
     check('public_price').notEmpty().withMessage('Precio público requerido'),
-    check('existence').notEmpty().withMessage('Existencia requerido'),
-    check('order').notEmpty().withMessage('Petición requerido'),
-    check('fixed_background').notEmpty().withMessage('Fondo fijo requerido'),
+  //  check('existence').notEmpty().withMessage('Existencia requerido'),
+   // check('order').notEmpty().withMessage('Petición requerido'),
+   // check('fixed_background').notEmpty().withMessage('Fondo fijo requerido'),
 ]
 ,products.create);
 
@@ -34,9 +34,9 @@ router.put('/products/:id', isLogged,
     check('presentation').notEmpty().withMessage('Presentación requerido'),
     check('price').notEmpty().withMessage('Precio requerido'),
     check('public_price').notEmpty().withMessage('Precio público requerido'),
-    check('existence').notEmpty().withMessage('Existencia requerido'),
-    check('order').notEmpty().withMessage('Petición requerido'),
-    check('fixed_background').notEmpty().withMessage('Fondo fijo requerido'),
+  //  check('existence').notEmpty().withMessage('Existencia requerido'),
+   // check('order').notEmpty().withMessage('Petición requerido'),
+   // check('fixed_background').notEmpty().withMessage('Fondo fijo requerido'),
 ]
 ,products.update);
 

@@ -45,10 +45,12 @@ if (!errors.isEmpty()) {
                         presentation: product_create.presentation,
                         price: product_create.price,
                         public_price: product_create.public_price,
-                        existence: product_create.existence,
-                        order: product_create.order,
-                        fixed_background: product_create.fixed_background,
-                        laboratory: product_create.laboratory
+                      //  existence: product_create.existence,
+                      //  order: product_create.order,
+                      //  fixed_background: product_create.fixed_background,
+                        laboratory: product_create.laboratory,
+                        groupId: product_create.groupId,
+                        date_of_expiry: product_create.date_of_expiry
                     },
                     message: [{msg: 'Producto creado correctamente'}],
                     success : true,
@@ -91,10 +93,12 @@ exports.show = async (req,res) =>{
                 presentation: filter_products.presentation,
                 price: filter_products.price,
                 public_price: filter_products.public_price,
-                existence: filter_products.existence,
-                order: filter_products.order,
-                fixed_background: filter_products.fixed_background,
-                laboratory: filter_products.laboratory
+               // existence: filter_products.existence,
+               // order: filter_products.order,
+               // fixed_background: filter_products.fixed_background,
+                laboratory: filter_products.laboratory,
+                groupId: filter_products.groupId,
+                date_of_expiry: filter_products.date_of_expiry
                 },
                 message : [{msg: 'Producto encontrado exitosamente'}],
                 success : true
@@ -164,10 +168,12 @@ exports.show = async (req,res) =>{
                     presentation: element.presentation,
                     price: element.price,
                     public_price: element.public_price,
-                    existence: element.existence,
-                    order: element.order,
-                    fixed_background: element.fixed_background,
-                    laboratory: element.laboratory
+                    //existence: element.existence,
+                    //order: element.order,
+                    //fixed_background: element.fixed_background,
+                    laboratory: element.laboratory,
+                    groupId: element.groupId,
+                    date_of_expiry: element.date_of_expiry
                 }
               });
 
@@ -201,10 +207,12 @@ exports.show = async (req,res) =>{
                     presentation: element.presentation,
                     price: element.price,
                     public_price: element.public_price,
-                    existence: element.existence,
-                    order: element.order,
-                    fixed_background: element.fixed_background,
-                    laboratory: element.laboratory
+                    //existence: element.existence,
+                    //order: element.order,
+                    //fixed_background: element.fixed_background,
+                    laboratory: element.laboratory,
+                    groupId: element.groupId,
+                    date_of_expiry: element.date_of_expiry
                 }
               });
 
@@ -284,10 +292,12 @@ if (!errors.isEmpty()) {
                             presentation: data_product_update_create.presentation,
                             price: data_product_update_create.price,
                             public_price: data_product_update_create.public_price,
-                            existence: data_product_update_create.existence,
-                            order: data_product_update_create.order,
-                            fixed_background: data_product_update_create.fixed_background,
-                            laboratory: data_product_update_create.laboratory
+                           // existence: data_product_update_create.existence,
+                           // order: data_product_update_create.order,
+                           // fixed_background: data_product_update_create.fixed_background,
+                            laboratory: data_product_update_create.laboratory,
+                            groupId: data_product_update_create.groupId,
+                            date_of_expiry: data_product_update_create.date_of_expiry
                         },
                         message: [{msg: 'Producto actualizado correctamente'}],
                         success : true,

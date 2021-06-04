@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
+  class groupProducts extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,36 +11,38 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Users.hasMany(models.updateProduct, {
-        foreignKey: "userId",
-        as: "updateproducts"
+      groupProducts.hasMany(models.Products, {
+        foreignKey: "groupId",
+        as: "groupproducts"
       });
     }
   };
-  Users.init({
-    token: {
-      unique:true,
+  groupProducts.init({
+    existence: {
       allowNull: false,
-      type: DataTypes.STRING
+      defaultValue: 0,
+      type: DataTypes.INTEGER
     },
-    username: {
-      unique:  true,
+    order: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.INTEGER
+    },
+    fixed_background: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.INTEGER
+    },
+    group: {
       allowNull: false,
       type: DataTypes.STRING,
       validate:{
-        min: 5,                 
+        isIn: [['PERFUMERIA', 'INYECTABLE']]
       }
-    },
-    password: { 
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate:{
-        min: 5,                 
-      }
-    }
+    } 
   }, {
     sequelize,
-    modelName: 'Users',
+    modelName: 'groupProducts',
   });
-  return Users;
+  return groupProducts;
 };

@@ -5,19 +5,20 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     let datas = [];
     let amount = 5;
+    let presentation = ['TABLETAS', 'GOTAS', 'SUPOSITORIO', 'INYECTABLE'];
+    let groupId = [1,2,3,4,5];
     while(amount--){
       datas.push({
         code:faker.datatype.number(9999999999999),
         name:faker.random.word(),
         generic_compound:faker.random.word(),
         specs:faker.lorem.words(),
-        presentation:faker.random.word(),
+        presentation: presentation[Math.floor(Math.random()*5)],
         price:faker.datatype.float(),
         public_price:faker.datatype.float(),
-        existence:faker.datatype.number(),
-        order:faker.datatype.number(),
-        fixed_background:faker.datatype.number(),
         laboratory:faker.random.word(),
+        groupId:groupId[Math.floor(Math.random()*5)],
+        date_of_expiry:new Date(),
         createdAt:new Date(), 
         updatedAt:new Date(),
       });

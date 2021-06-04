@@ -1,4 +1,4 @@
-//npx sequelize-cli model:generate --name Products --attributes code:string,name:string,generic_compound:string,specs:string,presentation:string,price:float,public_price:float,existence:integer,order:integer,fixed_background:integer,laboratory:string
+//npx sequelize-cli model:generate --name Products --attributes code:string,name:string,generic_compound:string,specs:string,presentation:string,price:float,public_price:float,laboratory:string,groupId:integer,date_of_expiry:date
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -40,24 +40,22 @@ module.exports = {
         defaultValue: 0,
         type: Sequelize.FLOAT
       },
-      existence: {
-        allowNull: false,
-        defaultValue: 0,
-        type: Sequelize.INTEGER
-      },
-      order: {
-        allowNull: false,
-        defaultValue: 0,
-        type: Sequelize.INTEGER
-      },
-      fixed_background: {
-        allowNull: false,
-        defaultValue: 0,
-        type: Sequelize.INTEGER
-      },
       laboratory: {
         allowNull: true,
         type: Sequelize.STRING
+      },
+      groupId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'groupProducts',
+          key: 'id'
+        }
+      },
+      date_of_expiry: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -71,7 +69,6 @@ module.exports = {
       charset: 'utf8', 
       collate: 'utf8_general_ci'
     });
-
     await queryInterface.addConstraint('Products', {
       fields: ['presentation'],
       type: 'check',

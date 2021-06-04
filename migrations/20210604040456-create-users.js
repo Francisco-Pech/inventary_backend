@@ -1,4 +1,4 @@
-//npx sequelize-cli model:generate --name Users --attributes token:string,users:string,password:string,job_title:string
+//npx sequelize-cli model:generate --name Users --attributes token:string,username:string,password:string
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {

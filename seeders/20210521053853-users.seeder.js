@@ -5,13 +5,11 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     let datas = [];
     let amount = 5;
-    let job_title = ['Administrator', 'Seller'];
     while(amount--){
       datas.push({
         token:faker.random.alphaNumeric(18),
         username:faker.internet.userName(),
         password:faker.internet.password(),
-        job_title: job_title[Math.floor(Math.random()*3)],
         createdAt:new Date(), 
         updatedAt:new Date(),
       });

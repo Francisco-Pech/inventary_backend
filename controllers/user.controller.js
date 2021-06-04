@@ -253,7 +253,7 @@ if (!errors.isEmpty()) {
         }
     });
     return res.status(422).json({
-        data : [],
+        data : {},
         message: _errors,
         success : false,
     })
@@ -267,7 +267,7 @@ console.log("ok...");
             const data_user_update = await Users.update({password: req.body.password}, {where:{id : id}});
             if (data_user_update[0]== 0) {
                 return res.status(404).send({
-                    data : [],
+                    data : {},
                     message: [{ msg: 'Usuario no encontrado' }],
                     success : false,
                     
@@ -275,14 +275,14 @@ console.log("ok...");
             }else{
                 // const users_update = await Users.findByPk(id);
                 return res.status(201).send({
-                    data: [],
+                    data: {},
                     message: [{msg: 'Contraseña actualizada correctamente'}],
                     success: true
                 });
             }
         }else{
             return res.status(404).send({
-                data : [],
+                data : {},
                 message: [{ msg: 'Usuario no encontrado' }],
                 success : false,
             });
@@ -290,7 +290,7 @@ console.log("ok...");
 
     }catch(error){
         return res.status(500).send({
-            data : [],
+            data : {},
             message : [{ msg: error.errors[0].message}],
             success : false,
         });

@@ -1,43 +1,21 @@
 //sequelize db:seed --seed 20210521055731-updateproducts.seeder.js
 'use strict';
 const faker=require('faker');
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     let datas = [];
-    // Esto se cambia según el ID del usuario y producto ya que se encuentran relacionadas
-    datas.push({
-        userId:1,
-        productId:1,
+    let amount = 5;
+    let userId = [1,2,3,4,5];
+    let productId = [11,12,13,14,15];
+    while(amount--){
+      datas.push({
+        userId:userId[Math.floor(Math.random()*5)],
+        productId:productId[Math.floor(Math.random()*5)],
         current_existence:faker.datatype.number(100),
         createdAt:new Date(), 
         updatedAt:new Date(),
-    },{
-        userId:1,
-        productId:3,
-        current_existence:faker.datatype.number(100),
-        createdAt:new Date(), 
-        updatedAt:new Date(),
-    },{
-        userId:2,
-        productId:3,
-        current_existence:faker.datatype.number(100),
-        createdAt:new Date(), 
-        updatedAt:new Date(),
-    },{
-      userId:3,
-        productId:4,
-        current_existence:faker.datatype.number(100),
-        createdAt:new Date(), 
-        updatedAt:new Date(),
-    },{
-      userId:4,
-        productId:5,
-        current_existence:faker.datatype.number(100),
-        createdAt:new Date(), 
-        updatedAt:new Date(),
+      });
     }
-    );
     
     await queryInterface.bulkInsert('updateProducts', datas, {});
   },
