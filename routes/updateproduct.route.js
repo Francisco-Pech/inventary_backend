@@ -7,13 +7,13 @@ const router = express.Router();
 
 //------------------------------------Rutas la actualización de productos---------------------------------//
 /* Obtener los datos de todos los productos actualizados */
-router.get('/updateproducts',isLogged,updateproducts.index);
+router.get('/updateproducts',isLogged,updateproducts.index);  
 
 /* Obtener datos de un producto actualizado */
 router.get('/updateproducts/:id',isLogged,updateproducts.show);
 
 /* Creación de productos actualizados */
-router.post('/updateproducts',isLogged,
+router.post('/updateproducts',isLogged,             /// TIENE QUE SER AUTOMATICO
 [
     check('userId').notEmpty().withMessage('ID del usuario requerido'),
     check('productId').notEmpty().withMessage('ID del producto requerido'),

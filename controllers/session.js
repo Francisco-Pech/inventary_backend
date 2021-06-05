@@ -3,7 +3,7 @@ const authConfig = require('../config/auth');
 const { Users }=require('../models/index');
 const { check , validationResult } = require('express-validator');
 require('dotenv').config();
-
+const _id; 
 /**
  * Iniciar sesión
  * @param {*} req representa a require el cual obtiene los datos desde el cliente
@@ -34,8 +34,7 @@ if (!errors.isEmpty()) {
         });
 
             if(filter_users && bcrypt.compareSync(req.body.password, filter_users.password)){
-            // if(filter_users){
-                // req.body.token = jwt.sign({ username: filter_users.username, id: filter_users.id}, process.env.TOKEN_SECRET); 
+                _id = filter_users.id;
                 req.body.token = bcrypt.hashSync(req.body.username, Number.parseInt(authConfig.rounds) ); 
                 // Se actualiza nuevo Token
                 filter_users.save();
@@ -92,4 +91,9 @@ exports.logout = async (req,res) =>{
         message: [{ msg: "Sesión cerrada" }],
         success: true
     });
+}
+
+
+module.exports = {
+    unique_id: _id,                         
 }
