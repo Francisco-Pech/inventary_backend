@@ -1,33 +1,26 @@
-//npx sequelize-cli model:generate --name Users --attributes token:string,username:string,password:string
+//npx sequelize-cli model:generate --name Products --attributes groupId:integer,date_of_expiry:date
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Products', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      token: {
-        unique:true,
+      groupId: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      username: {
-        unique:true,
-        allowNull: false,
-        type: Sequelize.STRING,
-        validate:{
-          min: 5,                 
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'groupProducts',
+          key: 'id'
         }
       },
-      password: {
+      date_of_expiry: {
         allowNull: false,
-        type: Sequelize.STRING,
-        validate:{
-          min: 5,                 
-        }
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +36,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Products');
   }
 };

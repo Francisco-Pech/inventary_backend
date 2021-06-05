@@ -20,15 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Products.init({
-    code: {
-      unique: true,
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    name: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
     groupId:{ 
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -37,38 +28,6 @@ module.exports = (sequelize, DataTypes) => {
           model: 'groupProducts',
           key: 'id'
         }
-    },
-    presentation: { 
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    supplier_price: {
-      allowNull: false,
-      defaultValue: 0,
-      type: DataTypes.FLOAT
-    },
-    percentage: {
-      allowNull: false,
-      defaultValue: 0,
-      type: DataTypes.FLOAT
-    },
-    suggested_price: {
-      allowNull: false,
-      defaultValue: 0,
-      type: DataTypes.FLOAT
-    },
-    public_price: {
-      allowNull: false,
-      defaultValue: 0,
-      type: DataTypes.FLOAT
-    },
-    laboratory:{ 
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    key: { 
-      allowNull: false,
-      type: DataTypes.STRING
     },
     date_of_expiry: {
       allowNull: false,

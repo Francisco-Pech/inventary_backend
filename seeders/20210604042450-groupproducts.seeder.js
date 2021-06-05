@@ -8,6 +8,14 @@ module.exports = {
     let group = ['MEDICAMENTOS','ANTIBIOTICOS','MEDICAMENTOS CONTROLADOS','PERFUMERIA','CURACIONES'];
     while(amount--){
       datas.push({
+        code:faker.datatype.number(9999999999999),
+        name:faker.random.word(),
+        presentation: faker.random.word(),
+        supplier_price:faker.datatype.float(),
+        percentage:faker.datatype.float(),
+        suggested_price:faker.datatype.float(),
+        public_price:faker.datatype.float(),
+        laboratory:faker.random.word(),
         existence:faker.datatype.number(),
         order:faker.datatype.number(),
         fixed_background:faker.datatype.number(),

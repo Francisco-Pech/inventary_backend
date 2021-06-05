@@ -18,6 +18,50 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   groupProducts.init({
+    code: {
+      unique: true,
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    group: {
+      allowNull: false,
+      type: DataTypes.ENUM,
+      validate:{
+        isIn: [['MEDICAMENTOS','ANTIBIOTICOS','MEDICAMENTOS CONTROLADOS','PERFUMERIA','CURACIONES']]
+      }
+    },
+    presentation: { 
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    supplier_price: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.FLOAT
+    },
+    percentage: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.FLOAT
+    },
+    suggested_price: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.FLOAT
+    },
+    public_price: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.FLOAT
+    },
+    laboratory:{ 
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     existence: {
       allowNull: false,
       defaultValue: 0,
@@ -32,13 +76,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0,
       type: DataTypes.INTEGER
-    },
-    group: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate:{
-        isIn: [['MEDICAMENTOS','ANTIBIOTICOS','MEDICAMENTOS CONTROLADOS','PERFUMERIA','CURACIONES']]
-      }
     },
     active_substance: {
       allowNull: false,

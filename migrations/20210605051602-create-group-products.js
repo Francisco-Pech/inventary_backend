@@ -1,8 +1,8 @@
-//npx sequelize-cli model:generate --name Products --attributes code:string,name:string,groupId:integer,presentation:string,supplier_price:float,percentage:float,suggested_price:float,public_price:float,laboratory:string,key:string,date_of_expiry:date
+//npx sequelize-cli model:generate --name groupProducts --attributes code:string,name:string,group:enum,presentation:string,supplier_price:float,percentage:float,suggested_price:float,public_price:float,laboratory:string,existence:integer,order:integer,fixed_background:integer,active_substance:string
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Products', {
+    await queryInterface.createTable('groupProducts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,14 +18,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      groupId: {
+      group: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'groupProducts',
-          key: 'id'
-        }
+        type: Sequelize.ENUM,
+        values: ['MEDICAMENTOS','ANTIBIOTICOS','MEDICAMENTOS CONTROLADOS','PERFUMERIA','CURACIONES']
       },
       presentation: {
         allowNull: false,
@@ -55,13 +51,24 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
-      key: {
+      existence: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.INTEGER
+      },
+      order: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.INTEGER
+      },
+      fixed_background: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.INTEGER
+      },
+      active_substance: {
         allowNull: false,
         type: Sequelize.STRING
-      },
-      date_of_expiry: {
-        allowNull: false,
-        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -77,6 +84,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Products');
+    await queryInterface.dropTable('groupProducts');
   }
 };
