@@ -6,7 +6,7 @@ module.exports = {
     let datas = [];
     let amount = 5;
     let userId = [1,2,3,4,5];
-    let productId = [11,12,13,14,15];
+    let productId = [1,2,3,4,5];
     while(amount--){
       datas.push({
         userId:userId[Math.floor(Math.random()*5)],

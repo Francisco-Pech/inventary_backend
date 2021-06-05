@@ -37,9 +37,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
       validate:{
-        isIn: [['PERFUMERIA', 'INYECTABLE']]
+        isIn: [['MEDICAMENTOS','ANTIBIOTICOS','MEDICAMENTOS CONTROLADOS','PERFUMERIA','CURACIONES']]
       }
-    } 
+    },
+    active_substance: {
+      allowNull: false,
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'groupProducts',

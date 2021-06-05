@@ -29,22 +29,30 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    generic_compound: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    specs: {
-      allowNull: true,
-      type: DataTypes.STRING
+    groupId:{ 
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+        references: {
+          model: 'groupProducts',
+          key: 'id'
+        }
     },
     presentation: { 
       allowNull: false,
-      type: DataTypes.STRING,
-      validate:{
-        isIn: [['TABLETAS', 'GOTAS', 'SUPOSITORIO', 'INYECTABLE']]
-      }
+      type: DataTypes.STRING
     },
-    price: {
+    supplier_price: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.FLOAT
+    },
+    percentage: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.FLOAT
+    },
+    suggested_price: {
       allowNull: false,
       defaultValue: 0,
       type: DataTypes.FLOAT
@@ -58,14 +66,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
-    groupId:{ 
+    key: { 
       allowNull: false,
-      type: DataTypes.INTEGER,
-      onDelete: 'CASCADE',
-        references: {
-          model: 'groupProducts',
-          key: 'id'
-        }
+      type: DataTypes.STRING
     },
     date_of_expiry: {
       allowNull: false,

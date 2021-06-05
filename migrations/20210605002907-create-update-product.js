@@ -1,5 +1,4 @@
 //npx sequelize-cli model:generate --name updateProduct --attributes userId:integer,productId:integer,current_existence:integer
-
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {

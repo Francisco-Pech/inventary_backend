@@ -1,4 +1,4 @@
-//npx sequelize-cli model:generate --name Products --attributes code:string,name:string,generic_compound:string,specs:string,presentation:string,price:float,public_price:float,laboratory:string,groupId:integer,date_of_expiry:date
+//npx sequelize-cli model:generate --name Products --attributes code:string,name:string,groupId:integer,presentation:string,supplier_price:float,percentage:float,suggested_price:float,public_price:float,laboratory:string,key:string,date_of_expiry:date
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -18,19 +18,30 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      generic_compound: {
-        allowNull: true,
-        type: Sequelize.STRING
-      },
-      specs: {
-        allowNull: true,
-        type: Sequelize.STRING
+      groupId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'groupProducts',
+          key: 'id'
+        }
       },
       presentation: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      price: {
+      supplier_price: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.FLOAT
+      },
+      percentage: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.FLOAT
+      },
+      suggested_price: {
         allowNull: false,
         defaultValue: 0,
         type: Sequelize.FLOAT
@@ -44,14 +55,9 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
-      groupId: {
+      key: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'groupProducts',
-          key: 'id'
-        }
+        type: Sequelize.STRING
       },
       date_of_expiry: {
         allowNull: false,
@@ -68,13 +74,6 @@ module.exports = {
     },{
       charset: 'utf8', 
       collate: 'utf8_general_ci'
-    });
-    await queryInterface.addConstraint('Products', {
-      fields: ['presentation'],
-      type: 'check',
-      where: {
-        presentation: ['TABLETAS', 'GOTAS', 'SUPOSITORIO', 'INYECTABLE']
-      }
     });
   },
   down: async (queryInterface, Sequelize) => {

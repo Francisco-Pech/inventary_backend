@@ -1,4 +1,4 @@
-//npx sequelize-cli model:generate --name groupProducts --attributes existence:integer,order:integer,fixed_background:integer,group:string
+//npx sequelize-cli model:generate --name groupProducts --attributes existence:integer,order:integer,fixed_background:integer,group:string,active_substance:string
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -28,6 +28,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      active_substance: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -44,7 +48,7 @@ module.exports = {
       fields: ['group'],
       type: 'check',
       where: {
-        group: ['PERFUMERIA', 'INYECTABLE']
+        group: ['MEDICAMENTOS','ANTIBIOTICOS','MEDICAMENTOS CONTROLADOS','PERFUMERIA','CURACIONES']
       }
     });
   },
