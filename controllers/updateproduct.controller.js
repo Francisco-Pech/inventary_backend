@@ -5,6 +5,8 @@ const { Products }=require('../models/index');
 const { check , validationResult } = require('express-validator');
 require('dotenv').config();
 
+const { unique_id } =  require('./session')
+
 /**
  * Creando actualización de los productos 
  * @param {*} req representa a require el cual obtiene los datos desde el cliente
@@ -29,7 +31,7 @@ if (!errors.isEmpty()) {
     try{
         
             const filter_products = await Products.findByPk(req.body.productId);
-            const filter_users = await Users.findByPk(req.body.userId);
+            const filter_users = await Users.findByPk(unique_id);
         
             if(!filter_products && !filter_users){
                 return res.status(404).send({

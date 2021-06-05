@@ -15,28 +15,16 @@ router.get('/products/:id',isLogged, products.show);
 /* Creación de productos */
 router.post('/products', isLogged, 
 [
-    check('code').notEmpty().withMessage('Código de barras requerido'),
-    check('name').notEmpty().withMessage('Nombre requerido'),
-    check('presentation').notEmpty().withMessage('Presentación requerido'),
-    check('price').notEmpty().withMessage('Precio requerido'),
-    check('public_price').notEmpty().withMessage('Precio público requerido'),
-  //  check('existence').notEmpty().withMessage('Existencia requerido'),
-   // check('order').notEmpty().withMessage('Petición requerido'),
-   // check('fixed_background').notEmpty().withMessage('Fondo fijo requerido'),
+  check('date_of_expiry').notEmpty().withMessage('Fecha de caducidad requerido'),
+  check('groupId').notEmpty().withMessage('ID del grupo requerido')
 ]
 ,products.create);
 
 /* Actualizamos los datos del producto  */
 router.put('/products/:id', isLogged,
 [
-    check('code').notEmpty().withMessage('Código de barras requerido'),
-    check('name').notEmpty().withMessage('Nombre requerido'),
-    check('presentation').notEmpty().withMessage('Presentación requerido'),
-    check('price').notEmpty().withMessage('Precio requerido'),
-    check('public_price').notEmpty().withMessage('Precio público requerido'),
-  //  check('existence').notEmpty().withMessage('Existencia requerido'),
-   // check('order').notEmpty().withMessage('Petición requerido'),
-   // check('fixed_background').notEmpty().withMessage('Fondo fijo requerido'),
+  check('date_of_expiry').notEmpty().withMessage('Fecha de caducidad requerido'),
+  check('groupId').notEmpty().withMessage('ID del grupo requerido')
 ]
 ,products.update);
 
