@@ -3,7 +3,7 @@ const authConfig = require('../config/auth');
 const { Users }=require('../models/index');
 const { check , validationResult } = require('express-validator');
 require('dotenv').config();
-const _id; 
+
 /**
  * Iniciar sesión
  * @param {*} req representa a require el cual obtiene los datos desde el cliente
@@ -34,8 +34,9 @@ if (!errors.isEmpty()) {
         });
 
             if(filter_users && bcrypt.compareSync(req.body.password, filter_users.password)){
-                _id = filter_users.id;
+
                 req.body.token = bcrypt.hashSync(req.body.username, Number.parseInt(authConfig.rounds) ); 
+                    
                 // Se actualiza nuevo Token
                 filter_users.save();
                 delete req.body.password;
@@ -70,12 +71,13 @@ if (!errors.isEmpty()) {
  * Cerrar sesión
  * @param {*} req representa a require el cual obtiene los datos desde el cliente
  * @param {*} res da la respuesta hacia el cliente
- * @returns 
+ * @returns  
  */
 exports.logout = async (req,res) =>{
     // const id = req.body.token;
     var _token = req.headers.authorization.split(" ")[1];
     const token  = await Users.findOne({ where: { token: _token } });
+
     // const filter_products = await Users.findByPk(id);
     let body = {
         token : "",
@@ -94,6 +96,3 @@ exports.logout = async (req,res) =>{
 }
 
 
-module.exports = {
-    unique_id: _id,                         
-}

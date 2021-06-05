@@ -15,28 +15,24 @@ router.get('/users/:id',isLogged,users.show);
 /* Creación de usuarios */
 router.post('/users',isLogged, 
 [
-    check('password').isLength({ min: 5 }).withMessage('Contraseña debe ser mayor a 5 caracteres'),
     check('username').isLength({ min: 5 }).withMessage('Usuario debe ser mayor a 5 caracteres'),
+    check('password').isLength({ min: 5 }).withMessage('Contraseña debe ser mayor a 5 caracteres'),
 ]
 ,users.create);
 
-/* Cambiar contraseña */
-router.post('/users/changePassword/:id',isLogged, 
-[
-    check('new_password').isLength({ min: 5 }).withMessage('Contraseña debe ser mayor a 5 caracteres'),
-]
-,users.changePassword);
+/* Eliminamos a un usuario */
+router.delete('/users/:id', isLogged,users.delete);
 
-/* Actualizamos los datos del usuario  */
+
+/* Actualizamos contraseña  */
 router.put('/users/:id', isLogged,
 [
     check('password').isLength({ min: 5 }).withMessage('Contraseña debe ser mayor a 5 caracteres'),
-    check('username').isLength({ min: 5 }).withMessage('Usuario debe ser mayor a 5 caracteres'),
+    check('new_password').isLength({ min: 5 }).withMessage('Contraseña debe ser mayor a 5 caracteres'),
+    check('new_password_repeat').custom((value, { req }) => value === req.body.new_password).withMessage('Contraseña debe coincidir'),
 ]
 ,users.update);
 
-/* Eliminamos a un usuario */
-router.delete('/users/:id', isLogged,users.delete);
 
 //--------------------------------------------------------------------------------------------------------//
 

@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     group: {
       allowNull: false,
-      type: DataTypes.ENUM,
+      type: DataTypes.STRING,
       validate:{
         isIn: [['MEDICAMENTOS','ANTIBIOTICOS','MEDICAMENTOS CONTROLADOS','PERFUMERIA','CURACIONES']]
       }

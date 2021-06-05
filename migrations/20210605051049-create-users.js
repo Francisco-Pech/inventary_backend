@@ -11,7 +11,6 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       token: {
-        unique:true,
         allowNull: false,
         type: Sequelize.STRING
       },

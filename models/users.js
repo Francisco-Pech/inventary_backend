@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   Users.init({
     token: {
-      unique:true,
       allowNull: false,
       type: DataTypes.STRING
     },
