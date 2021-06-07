@@ -24,35 +24,34 @@ if (!errors.isEmpty()) {
     })
 }
     try{
-
             // Hacemos uso de parámetros en mayúsculas
             req.body.name = (req.body.name).toUpperCase();
             req.body.presentation = (req.body.presentation).toUpperCase();
-            req.body.generic_compound = (req.body.generic_compound).toUpperCase();
-            req.body.specs = (req.body.specs).toUpperCase();
             req.body.laboratory = (req.body.laboratory).toUpperCase();
-
+            req.body.active_substance = (req.body.active_substance).toUpperCase();
+            
             // Filtramos para verificar que no exista el código de barras 
             const filter_products = await groupProducts.findOne({ where: { code: req.body.code } });
             if(!filter_products){
                 const product_create = await groupProducts.create(req.body);
                 return res.status(200).send({
                     data : {
+                        id: product_create.id,
                         code: product_create.code,
                         name: product_create.name,
-                        generic_compound: product_create.generic_compound,
-                        specs: product_create.specs,
+                        group: product_create.group,
                         presentation: product_create.presentation,
-                        price: product_create.price,
+                        supplier_price: product_create.supplier_price,
+                        percentage: product_create.percentage,
+                        suggested_price: product_create.suggested_price,
                         public_price: product_create.public_price,
-                      //  existence: product_create.existence,
-                      //  order: product_create.order,
-                      //  fixed_background: product_create.fixed_background,
                         laboratory: product_create.laboratory,
-                        groupId: product_create.groupId,
-                        date_of_expiry: product_create.date_of_expiry
+                        existence: product_create.existence,
+                        order: product_create.order,
+                        fixed_background: product_create.fixed_background,
+                        active_substance: product_create.active_substance,
                     },
-                    message: [{msg: 'Producto creado correctamente'}],
+                    message: [{msg: 'Grupo del producto creado correctamente'}],
                     success : true,
 
                 });
@@ -82,31 +81,32 @@ exports.show = async (req,res) =>{
     const id = req.params.id;
     try{
         const filter_products = await groupProducts.findByPk(id);
+        
         if(filter_products){
             return res.status(200).send({
                 data : {
-                id: filter_products.id,
-                code: filter_products.code,
-                name: filter_products.name,
-                generic_compound: filter_products.generic_compound,
-                specs: filter_products.specs,
-                presentation: filter_products.presentation,
-                price: filter_products.price,
-                public_price: filter_products.public_price,
-               // existence: filter_products.existence,
-               // order: filter_products.order,
-               // fixed_background: filter_products.fixed_background,
-                laboratory: filter_products.laboratory,
-                groupId: filter_products.groupId,
-                date_of_expiry: filter_products.date_of_expiry
+                    id: filter_products.id,
+                    code: filter_products.code,
+                    name: filter_products.name,
+                    group: filter_products.group,
+                    presentation: filter_products.presentation,
+                    supplier_price: filter_products.supplier_price,
+                    percentage: filter_products.percentage,
+                    suggested_price: filter_products.suggested_price,
+                    public_price: filter_products.public_price,
+                    laboratory: filter_products.laboratory,
+                    existence: filter_products.existence,
+                    order: filter_products.order,
+                    fixed_background: filter_products.fixed_background,
+                    active_substance: filter_products.active_substance,
                 },
-                message : [{msg: 'Producto encontrado exitosamente'}],
+                message : [{msg: 'Grupo del producto encontrado exitosamente'}],
                 success : true
             });
         }else{
             return res.status(404).send({
                 data : {},
-                message: [{msg : 'Producto no encontrado'}],
+                message: [{msg : 'Grupo del producto no encontrado'}],
                 success : false,
             });
         }

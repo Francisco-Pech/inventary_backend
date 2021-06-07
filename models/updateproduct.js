@@ -11,8 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      updateProduct.belongsTo(models.Users);
-      updateProduct.belongsTo(models.Products);
+      //updateProduct.belongsTo(models.Users);
+     
+      
     }
   };
   updateProduct.init({

@@ -11,10 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      groupProducts.hasMany(models.Products, {
-        foreignKey: "groupId",
-        as: "groupproducts"
-      });
+   //  groupProducts.belongsTo(models.Products);
     }
   };
   groupProducts.init({
