@@ -391,13 +391,11 @@ if (!errors.isEmpty()) {
     const id = req.params.id;
     try{
         const filter_products = await Products.findByPk(id);
-
-        console.log(filter_products.groupId);
-       // const filter_groupproducts = await groupproduct_create.findByPk(filter_products.groupId);
-
+        const filter_groupproducts = await groupProducts.findByPk(filter_products.groupId);
+   
         if(filter_products){
-            //filter_products.destroy();
-          //  filter_groupproducts.destroy();
+            filter_products.destroy();
+            filter_groupproducts.destroy();
             return res.status(200).send({
                 data : {},
                 message: [{msg: 'Producto eliminado correctamente'}],
