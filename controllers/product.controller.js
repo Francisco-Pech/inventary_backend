@@ -106,10 +106,8 @@ if (!errors.isEmpty()) {
  */
 exports.show = async (req,res) =>{
     try{
-    
         const filter_products = await Products.findByPk(req.params.id);
-    
-        if(filter_products){        
+        if(filter_products){              
             const filter_groupProducts = await groupProducts.findByPk(filter_products.groupId);
             return res.status(200).send({
                 data : {
@@ -187,30 +185,29 @@ exports.show = async (req,res) =>{
             const { count, rows } = await Products.findAndCountAll({order: [['id', 'DESC']], offset: offset, limit: format_for_page});
             const filter_groupProducts = await groupProducts.findAll({ where: results_filter_products, order: [['id', 'DESC']], offset: offset, limit: format_for_page});
 
-            const data_product = [];
-
-            for(let i=0; i<count; i++){
-                if(rows[i].groupId = filter_groupProducts[i].id){
-                    data_product[i] ={
-                        id: filter_groupProducts[i].id,
-                        code: filter_groupProducts[i].code,
-                        name: filter_groupProducts[i].name,
-                        group: filter_groupProducts[i].group,
-                        presentation: filter_groupProducts[i].presentation,
-                        supplier_price: filter_groupProducts[i].supplier_price,
-                        percentage: filter_groupProducts[i].percentage,
-                        suggested_price: filter_groupProducts[i].suggested_price,
-                        public_price: filter_groupProducts[i].public_price,
-                        laboratory: filter_groupProducts[i].laboratory,
-                        existence: filter_groupProducts[i].existence,
-                        order: filter_groupProducts[i].order,
-                        fixed_background: filter_groupProducts[i].fixed_background,
-                        active_substance: filter_groupProducts[i].active_substance,
-                        date_of_expiry: rows[i].date_of_expiry
+            const data_product = filter_groupProducts.map(function filter_groupproduct_map(element) {
+                for(let i=0; i<count; i++){
+                    if(element.id == rows[i].groupId){
+                        return {
+                            id: rows[i].id,
+                            code: element.code,
+                            name: element.name,
+                            group: element.group,
+                            presentation: element.presentation,
+                            supplier_price: element.supplier_price,
+                            percentage: element.percentage,
+                            suggested_price: element.suggested_price,
+                            public_price: element.public_price,
+                            laboratory: element.laboratory,
+                            existence: element.existence,
+                            order: element.order,
+                            fixed_background: element.fixed_background,
+                            active_substance: element.active_substance,
+                            date_of_expiry: rows[i].date_of_expiry
+                        }
                     }
-                }   
-            }
-            
+                }
+              });
           
             if(data_product.length > 0){
                 const finish_page = Math.ceil((count/format_for_page));
@@ -233,29 +230,27 @@ exports.show = async (req,res) =>{
             const { count, rows } =await Products.findAndCountAll({ order: [['id', 'DESC']], offset: offset, limit: format_for_page});
             const filter_groupProducts = await groupProducts.findAll({ order: [['id', 'DESC']], offset: offset, limit: format_for_page});
 
-            const data_product = [];
-
-            for(let i=0; i<count; i++){
-                if(rows[i].groupId = filter_groupProducts[i].id){
-                    data_product[i] ={
-                        id: filter_groupProducts[i].id,
-                        code: filter_groupProducts[i].code,
-                        name: filter_groupProducts[i].name,
-                        group: filter_groupProducts[i].group,
-                        presentation: filter_groupProducts[i].presentation,
-                        supplier_price: filter_groupProducts[i].supplier_price,
-                        percentage: filter_groupProducts[i].percentage,
-                        suggested_price: filter_groupProducts[i].suggested_price,
-                        public_price: filter_groupProducts[i].public_price,
-                        laboratory: filter_groupProducts[i].laboratory,
-                        existence: filter_groupProducts[i].existence,
-                        order: filter_groupProducts[i].order,
-                        fixed_background: filter_groupProducts[i].fixed_background,
-                        active_substance: filter_groupProducts[i].active_substance,
-                        date_of_expiry: rows[i].date_of_expiry
+            const data_product = rows.map(function filter_product_map(element,index) {
+                if(element.groupId == filter_groupProducts[index].id){
+                    return {
+                        id: element.id,
+                        code: filter_groupProducts[index].code,
+                        name: filter_groupProducts[index].name,
+                        group: filter_groupProducts[index].group,
+                        presentation: filter_groupProducts[index].presentation,
+                        supplier_price: filter_groupProducts[index].supplier_price,
+                        percentage: filter_groupProducts[index].percentage,
+                        suggested_price: filter_groupProducts[index].suggested_price,
+                        public_price: filter_groupProducts[index].public_price,
+                        laboratory: filter_groupProducts[index].laboratory,
+                        existence: filter_groupProducts[index].existence,
+                        order: filter_groupProducts[index].order,
+                        fixed_background: filter_groupProducts[index].fixed_background,
+                        active_substance: filter_groupProducts[index].active_substance,
+                        date_of_expiry: element.date_of_expiry
                     }
-                }   
-            }
+                }
+              });
 
             if(data_product.length > 0){
                 const finish_page = Math.ceil((count / format_for_page));
@@ -311,13 +306,35 @@ if (!errors.isEmpty()) {
                 const filter_products = await Products.findByPk(id);
                 if(filter_products){
 
-                const data_product_update = await Products.update(req.body, {
+                const data_product_update = await Products.update({ date_of_expiry: req.body.date_of_expiry}, {
                     where:{
                         id : id
                     }
                 });
 
-                if (data_product_update[0]== 0) {
+      
+                const data_groupproduct_update = await groupProducts.update({ 
+                    code: req.body.code,
+                    name: req.body.name,
+                    group: req.body.group,
+                    presentation: req.body.presentation,
+                    supplier_price: req.body.supplier_price,
+                    percentage: req.body.percentage,
+                    suggested_price: req.body.suggested_price,
+                    public_price: req.body.public_price,
+                    laboratory: req.body.laboratory,
+                    existence: req.body.existence,
+                    order: req.body.order,
+                    fixed_background: req.body.fixed_background,
+                    active_substance: req.body.active_substance,
+                }, {
+                    where:{
+                        id : filter_products.groupId
+                    }
+                });
+
+   
+                if ( (data_product_update[0]== 0) || (data_groupproduct_update[0] == 0)) {
                     return res.status(404).send({
                         data : {},
                         message: [{ msg: 'Producto no encontrado'}],
@@ -325,20 +342,23 @@ if (!errors.isEmpty()) {
                     });
                 }else{
                     const data_product_update_create = await Products.findByPk(id); 
+                    const data_groupproduct_update_create = await groupProducts.findByPk(filter_products.groupId); 
                     return res.status(200).send({
                         data : {
-                            code: data_product_update_create.code,
-                            name: data_product_update_create.name,
-                            generic_compound: data_product_update_create.generic_compound,
-                            specs: data_product_update_create.specs,
-                            presentation: data_product_update_create.presentation,
-                            price: data_product_update_create.price,
-                            public_price: data_product_update_create.public_price,
-                           // existence: data_product_update_create.existence,
-                           // order: data_product_update_create.order,
-                           // fixed_background: data_product_update_create.fixed_background,
-                            laboratory: data_product_update_create.laboratory,
-                            groupId: data_product_update_create.groupId,
+                            id: data_product_update_create.id,
+                            code: data_groupproduct_update_create.code,
+                            name: data_groupproduct_update_create.name,
+                            group: data_groupproduct_update_create.group,
+                            presentation: data_groupproduct_update_create.presentation,
+                            supplier_price: data_groupproduct_update_create.supplier_price,
+                            percentage: data_groupproduct_update_create.percentage,
+                            suggested_price: data_groupproduct_update_create.suggested_price,
+                            public_price: data_groupproduct_update_create.public_price,
+                            laboratory: data_groupproduct_update_create.laboratory,
+                            existence: data_groupproduct_update_create.existence,
+                            order: data_groupproduct_update_create.order,
+                            fixed_background: data_groupproduct_update_create.fixed_background,
+                            active_substance: data_groupproduct_update_create.active_substance,
                             date_of_expiry: data_product_update_create.date_of_expiry
                         },
                         message: [{msg: 'Producto actualizado correctamente'}],
@@ -372,8 +392,12 @@ if (!errors.isEmpty()) {
     try{
         const filter_products = await Products.findByPk(id);
 
+        console.log(filter_products);
+       // const filter_groupproducts = await groupproduct_create.findByPk(filter_products.groupId);
+
         if(filter_products){
-            filter_products.destroy();
+            //filter_products.destroy();
+          //  filter_groupproducts.destroy();
             return res.status(200).send({
                 data : {},
                 message: [{msg: 'Producto eliminado correctamente'}],
