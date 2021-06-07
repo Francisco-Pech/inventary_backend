@@ -392,7 +392,7 @@ if (!errors.isEmpty()) {
     try{
         const filter_products = await Products.findByPk(id);
 
-        console.log(filter_products);
+        console.log(filter_products.groupId);
        // const filter_groupproducts = await groupproduct_create.findByPk(filter_products.groupId);
 
         if(filter_products){
