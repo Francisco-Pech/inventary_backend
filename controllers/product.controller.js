@@ -312,6 +312,11 @@ if (!errors.isEmpty()) {
                     }
                 });
 
+                // Hacemos uso de parámetros en mayúsculas
+                req.body.name = (req.body.name).toUpperCase();
+                req.body.presentation = (req.body.presentation).toUpperCase();
+                req.body.laboratory = (req.body.laboratory).toUpperCase();
+                req.body.active_substance = (req.body.active_substance).toUpperCase();
       
                 const data_groupproduct_update = await groupProducts.update({ 
                     code: req.body.code,
@@ -391,9 +396,9 @@ if (!errors.isEmpty()) {
     const id = req.params.id;
     try{
         const filter_products = await Products.findByPk(id);
-        const filter_groupproducts = await groupProducts.findByPk(filter_products.groupId);
-   
+        
         if(filter_products){
+            const filter_groupproducts = await groupProducts.findByPk(filter_products.groupId);
             filter_products.destroy();
             filter_groupproducts.destroy();
             return res.status(200).send({
